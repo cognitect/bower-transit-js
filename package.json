@@ -1,0 +1,26 @@
+{
+  "name": "bower-transit-js",
+  "version": "0.8.616",
+  "homepage": "https://github.com/cognitect/bower-transit-js",
+  "description": "",
+  "author": "Cognitect",
+  "license": "APL",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cognitect/bower-transit-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cognitect/bower-transit-js/issues"
+  },
+  "contributors": [
+    "David Nolen (https://github.com/swannodette)"
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+      "bower": "1.3.8"
+  }
+}
