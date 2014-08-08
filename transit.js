@@ -1,4 +1,4 @@
-// transit-js 0.8.670
+// transit-js 0.8.693
 // http://transit-format.org
 // 
 // Copyright 2014 Cognitect. All Rights Reserved.
@@ -14,69 +14,2595 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License..
-;(function(){var aa=this;
-function ba(a){var b=typeof a;if("object"==b)if(a){if(a instanceof Array)return"array";if(a instanceof Object)return b;var c=Object.prototype.toString.call(a);if("[object Window]"==c)return"object";if("[object Array]"==c||"number"==typeof a.length&&"undefined"!=typeof a.splice&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("splice"))return"array";if("[object Function]"==c||"undefined"!=typeof a.call&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("call"))return"function"}else return"null";else if("function"==
-b&&"undefined"==typeof a.call)return"object";return b}function k(a,b){var c=a.split("."),d=aa;c[0]in d||!d.execScript||d.execScript("var "+c[0]);for(var e;c.length&&(e=c.shift());)c.length||void 0===b?d=d[e]?d[e]:d[e]={}:d[e]=b};function l(a,b){this.h=a|0;this.e=b|0}var ca={};function m(a){if(-128<=a&&128>a){var b=ca[a];if(b)return b}b=new l(a|0,0>a?-1:0);-128<=a&&128>a&&(ca[a]=b);return b}function n(a){return isNaN(a)||!isFinite(a)?p:a<=-da?q:a+1>=da?ea:0>a?r(n(-a)):new l(a%s|0,a/s|0)}function u(a,b){return new l(a,b)}
-function v(a,b){if(0==a.length)throw Error("number format error: empty string");var c=b||10;if(2>c||36<c)throw Error("radix out of range: "+c);if("-"==a.charAt(0))return r(v(a.substring(1),c));if(0<=a.indexOf("-"))throw Error('number format error: interior "-" character: '+a);for(var d=n(Math.pow(c,8)),e=p,f=0;f<a.length;f+=8){var g=Math.min(8,a.length-f),h=parseInt(a.substring(f,f+g),c);8>g?(g=n(Math.pow(c,g)),e=e.multiply(g).add(n(h))):(e=e.multiply(d),e=e.add(n(h)))}return e}
-var s=4294967296,da=s*s/2,p=m(0),w=m(1),fa=m(-1),ea=u(-1,2147483647),q=u(0,-2147483648),ga=m(16777216);function x(a){return a.e*s+(0<=a.h?a.h:s+a.h)}
-l.prototype.toString=function(a){a=a||10;if(2>a||36<a)throw Error("radix out of range: "+a);if(y(this))return"0";if(0>this.e){if(z(this,q)){var b=n(a),c=A(this,b),b=B(c.multiply(b),this);return c.toString(a)+b.h.toString(a)}return"-"+r(this).toString(a)}for(var c=n(Math.pow(a,6)),b=this,d="";;){var e=A(b,c),f=B(b,e.multiply(c)).h.toString(a),b=e;if(y(b))return f+d;for(;6>f.length;)f="0"+f;d=""+f+d}};function y(a){return 0==a.e&&0==a.h}function z(a,b){return a.e==b.e&&a.h==b.h}
-l.prototype.compare=function(a){if(z(this,a))return 0;var b=0>this.e,c=0>a.e;return b&&!c?-1:!b&&c?1:0>B(this,a).e?-1:1};function r(a){return z(a,q)?q:u(~a.h,~a.e).add(w)}l.prototype.add=function(a){var b=this.e>>>16,c=this.e&65535,d=this.h>>>16,e=a.e>>>16,f=a.e&65535,g=a.h>>>16,h;h=0+((this.h&65535)+(a.h&65535));a=0+(h>>>16);a+=d+g;d=0+(a>>>16);d+=c+f;c=0+(d>>>16);c=c+(b+e)&65535;return u((a&65535)<<16|h&65535,c<<16|d&65535)};function B(a,b){return a.add(r(b))}
-l.prototype.multiply=function(a){if(y(this)||y(a))return p;if(z(this,q))return 1==(a.h&1)?q:p;if(z(a,q))return 1==(this.h&1)?q:p;if(0>this.e)return 0>a.e?r(this).multiply(r(a)):r(r(this).multiply(a));if(0>a.e)return r(this.multiply(r(a)));if(0>this.compare(ga)&&0>a.compare(ga))return n(x(this)*x(a));var b=this.e>>>16,c=this.e&65535,d=this.h>>>16,e=this.h&65535,f=a.e>>>16,g=a.e&65535,h=a.h>>>16;a=a.h&65535;var I,t,C,sa;sa=0+e*a;C=0+(sa>>>16);C+=d*a;t=0+(C>>>16);C=(C&65535)+e*h;t+=C>>>16;C&=65535;t+=
-c*a;I=0+(t>>>16);t=(t&65535)+d*h;I+=t>>>16;t&=65535;t+=e*g;I+=t>>>16;t&=65535;I=I+(b*a+c*h+d*g+e*f)&65535;return u(C<<16|sa&65535,I<<16|t)};
-function A(a,b){if(y(b))throw Error("division by zero");if(y(a))return p;if(z(a,q)){if(z(b,w)||z(b,fa))return q;if(z(b,q))return w;var c;c=1;if(0==c)c=a;else{var d=a.e;c=32>c?u(a.h>>>c|d<<32-c,d>>c):u(d>>c-32,0<=d?0:-1)}c=A(c,b).shiftLeft(1);if(z(c,p))return 0>b.e?w:fa;d=B(a,b.multiply(c));return c.add(A(d,b))}if(z(b,q))return p;if(0>a.e)return 0>b.e?A(r(a),r(b)):r(A(r(a),b));if(0>b.e)return r(A(a,r(b)));for(var e=p,d=a;0<=d.compare(b);){c=Math.max(1,Math.floor(x(d)/x(b)));for(var f=Math.ceil(Math.log(c)/
-Math.LN2),f=48>=f?1:Math.pow(2,f-48),g=n(c),h=g.multiply(b);0>h.e||0<h.compare(d);)c-=f,g=n(c),h=g.multiply(b);y(g)&&(g=w);e=e.add(g);d=B(d,h)}return e}l.prototype.shiftLeft=function(a){a&=63;if(0==a)return this;var b=this.h;return 32>a?u(b<<a,this.e<<a|b>>>32-a):u(0,b<<a-32)};function ha(a,b){b&=63;if(0==b)return a;var c=a.e;return 32>b?u(a.h>>>b|c<<32-b,c>>>b):32==b?u(c,0):u(c>>>b-32,0)};var D="undefined"!=typeof Object.keys?function(a){return Object.keys(a)}:function(a){var b=[],c=0,d;for(d in a)b[c++]=d;return b},E="undefined"!=typeof Array.isArray?function(a){return Array.isArray(a)}:function(a){return"array"===ba(a)};function F(a,b){if(null==a)return null==b;if(a===b)return!0;if("object"===typeof a){if(E(a)){if(E(b)&&a.length===b.length){for(var c=0;c<a.length;c++)if(!F(a[c],b[c]))return!1;return!0}return!1}if(a.s)return a.s(b);if(null!=b&&"object"===typeof b){if(b.s)return b.s(a);var d=c=0,e=D(b).length,f;for(f in a)if(a.hasOwnProperty(f))if(d++,"$com$cognitect$transit$hashCode$"==f)b[f]||(c=-1);else if(!b.hasOwnProperty(f)||!F(a[f],b[f]))return!1;return d+c===e}}return!1}
-function ia(a,b){return a^b+2654435769+(a<<6)+(a>>2)}var ja={},ka=0;function la(a){var b=0;if(null!=a.forEach)a.forEach(function(a,c){b=(b+(G(c)^G(a)))%4503599627370496});else for(var c=D(a),d=0;d<c.length;d++){var e=c[d];if("$com$cognitect$transit$hashCode$"!==e)var f=a[e],b=(b+(G(e)^G(f)))%4503599627370496}return b}
-function ma(a){var b=a.$com$cognitect$transit$hashCode$||0;if(0===b)if(E(a)){for(var c=0;c<a.length;c++)b=ia(b,G(a[c]));a.$com$cognitect$transit$hashCode$=b}else a.forEach&&a.forEach(function(a){b=ia(b,G(a))});return b}
-function G(a){if(null==a)return 0;switch(typeof a){case "number":return a;case "boolean":return!0===a?1:0;case "string":var b=ja[a];if(null==b){for(var c=b=0;c<a.length;++c)b=31*b+a.charCodeAt(c),b%=4294967296;ka++;256<=ka&&(ja={},ka=1);ja[a]=b}a=b;return a;default:return a instanceof Date?a.valueOf():E(a)?ma(a):a.w?a.w():a.$com$cognitect$transit$hashCode$?a.$com$cognitect$transit$hashCode$:la(a)}};var na={};function H(a,b){this.tag=a;this.rep=b;this.k=-1}H.prototype.toString=function(){return"[TaggedValue: "+this.tag+", "+this.rep+"]"};H.prototype.B=function(a){return F(this,a)};H.prototype.equiv=H.prototype.B;H.prototype.s=function(a){return a instanceof H?this.tag===a.tag&&F(this.rep,a.rep):!1};H.prototype.w=function(){-1===this.k&&(this.k=ia(G(this.tag),G(this.rep)));return this.k};function J(a,b){return new H(a,b)}var oa=v("9007199254740992"),pa=v("-9007199254740992");
-function qa(a){if("number"===typeof a||a instanceof l)return a;a=v(a,10);return 0<a.compare(oa)||0>a.compare(pa)?a:x(a)}l.prototype.B=function(a){return F(this,a)};l.prototype.equiv=l.prototype.B;l.prototype.s=function(a){return a instanceof l&&z(this,a)};l.prototype.w=function(){return this.h};function ra(a){return J("n",a)}function ta(a){return J("f",a)}function K(a){this.name=a;this.k=-1}K.prototype.toString=function(){return":"+this.name};K.prototype.B=function(a){return F(this,a)};
-K.prototype.equiv=K.prototype.B;K.prototype.s=function(a){return a instanceof K&&this.name==a.name};K.prototype.w=function(){-1===this.k&&(this.k=G(this.name));return this.k};function ua(a){return new K(a)}function L(a){this.name=a;this.k=-1}L.prototype.toString=function(){return"[Symbol: "+this.name+"]"};L.prototype.B=function(a){return F(this,a)};L.prototype.equiv=L.prototype.B;L.prototype.s=function(a){return a instanceof L&&this.name==a.name};
-L.prototype.w=function(){-1===this.k&&(this.k=G(this.name));return this.k};function va(a){return new L(a)}function M(a,b,c){var d="";c=c||b+1;for(var e=8*(7-b),f=m(255).shiftLeft(e);b<c;b++,e-=8,f=ha(f,8)){var g=ha(u(a.h&f.h,a.e&f.e),e).toString(16);1==g.length&&(g="0"+g);d+=g}return d}function N(a,b){this.T=a;this.U=b;this.k=-1}N.prototype.toString=function(a){var b=this.T,c=this.U;a=""+(M(b,0,4)+"-");a+=M(b,4,6)+"-";a+=M(b,6,8)+"-";a+=M(c,0,2)+"-";return a+=M(c,2,8)};
-N.prototype.B=function(a){return F(this,a)};N.prototype.equiv=N.prototype.B;N.prototype.s=function(a){return a instanceof N&&z(this.T,a.T)&&z(this.U,a.U)};N.prototype.w=function(){-1===this.k&&(this.k=G(this.toString()));return this.k};
-function wa(a){a=a.replace(/-/g,"");for(var b=null,c=null,d=c=0,e=24,f=0,f=c=0,e=24;8>f;f+=2,e-=8)c|=parseInt(a.substring(f,f+2),16)<<e;d=0;f=8;for(e=24;16>f;f+=2,e-=8)d|=parseInt(a.substring(f,f+2),16)<<e;b=u(d,c);c=0;f=16;for(e=24;24>f;f+=2,e-=8)c|=parseInt(a.substring(f,f+2),16)<<e;d=0;for(e=f=24;32>f;f+=2,e-=8)d|=parseInt(a.substring(f,f+2),16)<<e;c=u(d,c);return new N(b,c)}function xa(a){a="number"===typeof a?a:parseInt(a,10);return new Date(a)}
-Date.prototype.s=function(a){return a instanceof Date?this.valueOf()===a.valueOf():!1};Date.prototype.w=function(){return this.valueOf()};function ya(a){return J("b",a)}function za(a){return J("r",a)}function O(a,b){this.v=a;this.type=b||0;this.l=0}O.prototype.next=function(){if(this.l<this.v.length){var a=null,a=0===this.type?this.v[this.l]:1===this.type?this.v[this.l+1]:[this.v[this.l],this.v[this.l+1]],a={value:a,done:!1};this.l+=2;return a}return{value:null,done:!0}};O.prototype.next=O.prototype.next;
-function P(a,b){this.map=a;this.type=b||0;this.keys=Aa(this.map);this.l=0;this.G=null;this.C=0}P.prototype.next=function(){if(this.l<this.map.size){null!=this.G&&this.C<this.G.length||(this.G=this.map.map[this.keys[this.l]],this.C=0);var a=null,a=0===this.type?this.G[this.C]:1===this.type?this.G[this.C+1]:[this.G[this.C],this.G[this.C+1]],a={value:a,done:!1};this.l++;this.C+=2;return a}return{value:null,done:!0}};P.prototype.next=P.prototype.next;
-function Ba(a,b){if((b instanceof Q||b instanceof R)&&a.size===b.size){for(var c in a.map)for(var d=a.map[c],e=0;e<d.length;e+=2)if(!F(d[e+1],b.get(d[e])))return!1;return!0}if(null!=b&&"object"===typeof b&&(c=D(b).length-(b.hasOwnProperty("$com$cognitect$transit$hashCode$")&&1||0),a.size===c)){for(d in b)if("$com$cognitect$transit$hashCode$"!==d&&!F(b[d],a.get(d)))return!1;return!0}return!1}function R(a){this.g=a;this.a=null;this.k=-1;this.size=a.length/2;this.X=0}R.prototype.toString=function(){return"[TransitArrayMap]"};
-function Ca(a){if(a.a)throw Error("Invalid operation, already converted");if(8>a.size)return!1;a.X++;return 32<a.X?(a.a=S(a.g,!1,!0),a.g=[],!0):!1}R.prototype.clear=function(){this.a?this.a.clear():this.g=[];this.size=0};R.prototype.clear=R.prototype.clear;R.prototype.keys=function(){return this.a?this.a.keys():new O(this.g,0)};R.prototype.keys=R.prototype.keys;R.prototype.H=function(){if(this.a)return this.a.H();for(var a=[],b=0,c=0;c<this.g.length;b++,c+=2)a[b]=this.g[c];return a};
-R.prototype.keySet=R.prototype.H;R.prototype.v=function(){return this.a?this.a.v():new O(this.g,2)};R.prototype.entries=R.prototype.v;R.prototype.I=function(){return this.a?this.a.I():new O(this.g,1)};R.prototype.values=R.prototype.I;R.prototype.forEach=function(a){if(this.a)this.a.forEach(a);else for(var b=0;b<this.g.length;b+=2)a(this.g[b+1],this.g[b])};R.prototype.forEach=R.prototype.forEach;
-R.prototype.get=function(a){if(this.a)return this.a.get(a);if(Ca(this))return this.get(a);for(var b=0;b<this.g.length;b+=2)if(F(this.g[b],a))return this.g[b+1];return null};R.prototype.get=R.prototype.get;R.prototype.D=function(a){if(this.a)return this.a.D(a);if(Ca(this))return this.D(a);for(var b=0;b<this.g.length;b+=2)if(F(this.g[b],a))return!0;return!1};R.prototype.has=R.prototype.D;
-R.prototype.set=function(a,b){if(this.a)this.a.set(a,b),this.size=this.a.size;else{for(var c=0;c<this.g.length;c+=2)if(F(this.g[c],a)){this.g[c+1]=b;return}this.g.push(a);this.g.push(b);this.size++;32<this.size&&(this.a=S(this.g,!1,!0),this.g=null)}};R.prototype.set=R.prototype.set;R.prototype["delete"]=function(a){if(this.a)this.a["delete"](a),this.size=this.a.size;else for(var b=0;b<this.g.length;b+=2)if(F(this.g[b],a)){this.g.splice(b,2);this.size--;break}};
-R.prototype.w=function(){if(this.a)return this.a.w();-1===this.k&&(this.k=la(this));return this.k};R.prototype.s=function(a){return this.a?Ba(this.a,a):Ba(this,a)};function Q(a,b,c){this.map=b||{};this.J=a||[];this.size=c||0;this.k=-1}Q.prototype.toString=function(){return"[TransitMap]"};Q.prototype.clear=function(){this.map={};this.J=[];this.size=0;this.k=-1};Q.prototype.clear=Q.prototype.clear;function Aa(a){return null!=a.J?a.J:D(a.map)}
-Q.prototype["delete"]=function(a){this.J=null;for(var b=G(a),c=this.map[b],d=0;d<c.length;d+=2)if(F(a,c[d])){c.splice(d,2);0===c.length&&delete this.map[b];this.size--;break}};Q.prototype.v=function(){return new P(this,2)};Q.prototype.entries=Q.prototype.v;Q.prototype.forEach=function(a){for(var b=Aa(this),c=0;c<b.length;c++)for(var d=this.map[b[c]],e=0;e<d.length;e+=2)a(d[e+1],d[e],this)};Q.prototype.forEach=Q.prototype.forEach;
-Q.prototype.get=function(a){var b=G(a),b=this.map[b];if(null!=b)for(var c=0;c<b.length;c+=2){if(F(a,b[c]))return b[c+1]}else return null};Q.prototype.get=Q.prototype.get;Q.prototype.D=function(a){var b=G(a),b=this.map[b];if(null!=b)for(var c=0;c<b.length;c+=2)if(F(a,b[c]))return!0;return!1};Q.prototype.has=Q.prototype.D;Q.prototype.keys=function(){return new P(this,0)};Q.prototype.keys=Q.prototype.keys;
-Q.prototype.H=function(){for(var a=Aa(this),b=[],c=0;c<a.length;c++)for(var d=this.map[a[c]],e=0;e<d.length;e+=2)b.push(d[e]);return b};Q.prototype.keySet=Q.prototype.H;Q.prototype.set=function(a,b){var c=G(a),d=this.map[c];if(null==d)this.J&&this.J.push(c),this.map[c]=[a,b],this.size++;else{for(var c=!0,e=0;e<d.length;e+=2)if(F(b,d[e])){c=!1;d[e]=b;break}c&&(d.push(a),d.push(b),this.size++)}};Q.prototype.set=Q.prototype.set;Q.prototype.I=function(){return new P(this,1)};Q.prototype.values=Q.prototype.I;
-Q.prototype.w=function(){-1===this.k&&(this.k=la(this));return this.k};Q.prototype.s=function(a){return Ba(this,a)};
-function S(a,b,c){a=a||[];b=!1===b?b:!0;if((!0!==c||!c)&&64>=a.length){if(b){var d=a;a=[];for(b=0;b<d.length;b+=2){var e=!1;for(c=0;c<a.length;c+=2)if(F(a[c],d[b])){a[c+1]=d[b+1];e=!0;break}e||(a.push(d[b]),a.push(d[b+1]))}}return new R(a)}var d={},e=[],f=0;for(b=0;b<a.length;b+=2){c=G(a[b]);var g=d[c];if(null==g)e.push(c),d[c]=[a[b],a[b+1]],f++;else{var h=!0;for(c=0;c<g.length;c+=2)if(F(g[c],a[b])){g[c+1]=a[b+1];h=!1;break}h&&(g.push(a[b]),g.push(a[b+1]),f++)}}return new Q(e,d,f)}
-function T(a){this.map=a;this.size=a.size}T.prototype.toString=function(){return"[TransitSet]"};T.prototype.add=function(a){this.map.set(a,a);this.size=this.map.size};T.prototype.add=T.prototype.add;T.prototype.clear=function(){this.map=new Q;this.size=0};T.prototype.clear=T.prototype.clear;T.prototype["delete"]=function(a){this.map["delete"](a);this.size=this.map.size};T.prototype.v=function(){return this.map.v()};T.prototype.entries=T.prototype.v;
-T.prototype.forEach=function(a){var b=this;this.map.forEach(function(c,d){a(d,b)})};T.prototype.forEach=T.prototype.forEach;T.prototype.D=function(a){return this.map.D(a)};T.prototype.has=T.prototype.D;T.prototype.keys=function(){return this.map.keys()};T.prototype.keys=T.prototype.keys;T.prototype.H=function(){return this.map.H()};T.prototype.keySet=T.prototype.H;T.prototype.I=function(){return this.map.I()};T.prototype.values=T.prototype.I;
-T.prototype.s=function(a){if(a instanceof T){if(this.size===a.size)return F(this.map,a.map)}else return!1};T.prototype.w=function(){return G(this.map)};function Da(a){a=a||[];for(var b={},c=[],d=0,e=0;e<a.length;e++){var f=G(a[e]),g=b[f];if(null==g)c.push(f),b[f]=[a[e],a[e]],d++;else{for(var f=!0,h=0;h<g.length;h+=2)if(F(g[h],a[e])){f=!1;break}f&&(g.push(a[e]),g.push(a[e]),d++)}}return new T(new Q(c,b,d))}function Ea(a){return J("'",a)}function Fa(a){return J("list",a)}
-function Ga(a){return J("link",a)};function Ha(a,b){if(3<a.length){if(b)return!0;var c=a.charAt(1);return"~"===a.charAt(0)?":"===c||"$"===c||"#"===c:!1}return!1}function Ia(a){var b=Math.floor(a/44);a=String.fromCharCode(a%44+48);return 0===b?"^"+a:"^"+String.fromCharCode(b+48)+a}function Ja(){this.aa=this.M=this.l=0;this.q={}}
-Ja.prototype.write=function(a,b){if(Ha(a,b)){4096===this.aa?(this.clear(),this.M=0,this.q={}):1936===this.l&&this.clear();var c=this.q[a];return null==c?(this.q[a]=[Ia(this.l),this.M],this.l++,a):c[1]!=this.M?(c[1]=this.M,c[0]=Ia(this.l),this.l++,a):c[0]}return a};Ja.prototype.clear=function(){this.l=0;this.M++};function Ka(){this.l=0;this.q=[]}Ka.prototype.write=function(a){1936==this.l&&(this.l=0);this.q[this.l]=a;this.l++;return a};
-Ka.prototype.W=function(a){return this.q[2===a.length?a.charCodeAt(1)-48:44*(a.charCodeAt(1)-48)+(a.charCodeAt(2)-48)]};Ka.prototype.clear=function(){this.l=0};function La(a){this.Q=a}
-function U(a){this.options=a||{};this.p={};for(var b in this.O.p)this.p[b]=this.O.p[b];for(b in this.options.handlers){a:{switch(b){case "_":case "s":case "?":case "i":case "d":case "b":case "'":case "array":case "map":a=!0;break a}a=!1}if(a)throw Error('Cannot override handler for ground type "'+b+'"');this.p[b]=this.options.handlers[b]}this.P=null!=this.options.preferStrings?this.options.preferStrings:this.O.P;this.S=this.options.defaultHandler||this.O.S;this.A=this.options.mapBuilder;this.K=this.options.arrayBuilder}
-U.prototype.O={p:{_:function(){return null},"?":function(a){return"t"===a},b:function(a){return ya(a)},i:function(a){return qa(a)},n:function(a){return ra(a)},d:function(a){return parseFloat(a)},f:function(a){return ta(a)},c:function(a){return a},":":function(a){return ua(a)},$:function(a){return va(a)},r:function(a){return za(a)},"'":function(a){return a},m:function(a){return xa(a)},t:function(a){return new Date(a)},u:function(a){return wa(a)},set:function(a){return Da(a)},list:function(a){return Fa(a)},
-link:function(a){return Ga(a)},cmap:function(a){return S(a,!1)}},S:function(a,b){return J(a,b)},P:!0};
-U.prototype.j=function(a,b,c,d){if(null==a)return null;switch(typeof a){case "string":return Ha(a,c)?(a=Ma(this,a),b&&b.write(a,c),b=a):b="^"===a.charAt(0)?b.W(a,c):Ma(this,a),b;case "object":if(E(a))if("^ "===a[0])if(this.A)if(17>a.length&&this.A.fromArray){d=[];for(c=1;c<a.length;c+=2)d.push(this.j(a[c],b,!0,!1)),d.push(this.j(a[c+1],b,!1,!1));b=this.A.fromArray(d,a)}else{d=this.A.init(a);for(c=1;c<a.length;c+=2)d=this.A.add(d,this.j(a[c],b,!0,!1),this.j(a[c+1],b,!1,!1),a);b=this.A.finalize(d,a)}else{d=
-[];for(c=1;c<a.length;c+=2)d.push(this.j(a[c],b,!0,!1)),d.push(this.j(a[c+1],b,!1,!1));b=S(d,!1)}else b=Na(this,a,b,d);else{c=D(a);var e=c[0];if((d=1==c.length?this.j(e,b,!1,!1):null)&&d instanceof La)a=a[e],c=this.p[d.Q],b=null!=c?c(this.j(a,b,!1,!0)):J(d.Q,this.j(a,b,!1,!1));else if(this.A)if(16>c.length&&this.A.fromArray){var f=[];for(d=0;d<c.length;d++)e=c[d],f.push(this.j(e,b,!0,!1)),f.push(this.j(a[e],b,!1,!1));b=this.A.fromArray(f,a)}else{f=this.A.init(a);for(d=0;d<c.length;d++)e=c[d],f=this.A.add(f,
-this.j(e,b,!0,!1),this.j(a[e],b,!1,!1),a);b=this.A.finalize(f,a)}else{f=[];for(d=0;d<c.length;d++)e=c[d],f.push(this.j(e,b,!0,!1)),f.push(this.j(a[e],b,!1,!1));b=S(f,!1)}}return b}return a};U.prototype.decode=U.prototype.j;
-function Na(a,b,c,d){if(d){var e=[];for(d=0;d<b.length;d++)e.push(a.j(b[d],c,!1,!1));return e}if(2===b.length&&"string"===typeof b[0]&&(d=a.j(b[0],c,!1,!1))&&d instanceof La)return b=b[1],e=a.p[d.Q],null!=e?e=e(a.j(b,c,!1,!0)):J(d.Q,a.j(b,c,!1,!1));if(a.K){if(32>=b.length&&a.K.fromArray){e=[];for(d=0;d<b.length;d++)e.push(a.j(b[d],c,!1,!1));return a.K.fromArray(e,b)}e=a.K.init();for(d=0;d<b.length;d++)e=a.K.add(e,a.j(b[d],c,!1,!1),b);return a.K.finalize(e,b)}e=[];for(d=0;d<b.length;d++)e.push(a.j(b[d],
-c,!1,!1));return e}function Ma(a,b){if("~"===b.charAt(0)){var c=b.charAt(1);if("~"===c||"^"===c||"`"===c)return b.substring(1);if("#"===c)return new La(b.substring(2));var d=a.p[c];return null==d?a.S(c,b.substring(2)):d(b.substring(2))}return b};function Oa(a){this.ba=new U(a)}function Pa(a,b){this.da=a;this.options=b||{};this.q=this.options.cache?this.options.cache:new Ka}Pa.prototype.W=function(a){var b=this.q;a=this.da.ba.j(JSON.parse(a),b);this.q.clear();return a};Pa.prototype.read=Pa.prototype.W;var Qa=0;function Ra(a){if(null==a)return"null";if(a===String)return"string";if(a===Boolean)return"boolean";if(a===Number)return"number";if(a===Array)return"array";if(a===Object)return"map";var b=a.com$cognitect$transit$ctor$guid;null==b&&(a.com$cognitect$transit$ctor$guid=b=++Qa);return b}function V(a){return null==a?null:a.constructor}function W(a,b){for(var c=a.toString(),d=c.length;d<b;d++)c="0"+c;return c}function Sa(){}Sa.prototype.tag=function(){return"_"};Sa.prototype.rep=function(){return null};
-Sa.prototype.o=function(){return"null"};function Ta(){}Ta.prototype.tag=function(){return"s"};Ta.prototype.rep=function(a){return a};Ta.prototype.o=function(a){return a};function Ua(){}Ua.prototype.tag=function(){return"i"};Ua.prototype.rep=function(a){return a};Ua.prototype.o=function(a){return a.toString()};function Va(){}Va.prototype.tag=function(){return"i"};Va.prototype.rep=function(a){return a.toString()};Va.prototype.o=function(a){return a.toString()};function Wa(){}Wa.prototype.tag=function(){return"?"};
-Wa.prototype.rep=function(a){return a};Wa.prototype.o=function(a){return a.toString()};function Xa(){}Xa.prototype.tag=function(){return"array"};Xa.prototype.rep=function(a){return a};Xa.prototype.o=function(){return null};function Ya(){}Ya.prototype.tag=function(){return"map"};Ya.prototype.rep=function(a){return a};Ya.prototype.o=function(){return null};function Za(){}Za.prototype.tag=function(){return"t"};
-Za.prototype.rep=function(a){return a.getUTCFullYear()+"-"+W(a.getUTCMonth()+1,2)+"-"+W(a.getUTCDate(),2)+"T"+W(a.getUTCHours(),2)+":"+W(a.getUTCMinutes(),2)+":"+W(a.getUTCSeconds(),2)+"."+W(a.getUTCMilliseconds(),3)+"Z"};Za.prototype.o=function(a,b){return b.rep(a)};function X(){}X.prototype.tag=function(){return"m"};X.prototype.rep=function(a){return a.valueOf()};X.prototype.o=function(a){return a.valueOf().toString()};X.prototype.Y=function(){return new Za};function $a(){}$a.prototype.tag=function(){return"u"};
-$a.prototype.rep=function(a){return a.toString()};$a.prototype.o=function(a){return a.toString()};function ab(){}ab.prototype.tag=function(){return":"};ab.prototype.rep=function(a){return a.name};ab.prototype.o=function(a,b){return b.rep(a)};function bb(){}bb.prototype.tag=function(){return"$"};bb.prototype.rep=function(a){return a.name};bb.prototype.o=function(a,b){return b.rep(a)};function cb(){}cb.prototype.tag=function(a){return a.tag};cb.prototype.rep=function(a){return a.rep};
-cb.prototype.o=function(){return null};function db(){}db.prototype.tag=function(){return"set"};db.prototype.rep=function(a){var b=[];a.forEach(function(a){b.push(a)});return J("array",b)};db.prototype.o=function(){return null};function eb(){}eb.prototype.tag=function(){return"map"};eb.prototype.rep=function(a){return a};eb.prototype.o=function(){return null};function fb(){}fb.prototype.tag=function(){return"map"};fb.prototype.rep=function(a){return a};fb.prototype.o=function(){return null};
-function gb(){this.p={};this.set(null,new Sa);this.set(String,new Ta);this.set(Number,new Ua);this.set(l,new Va);this.set(Boolean,new Wa);this.set(Array,new Xa);this.set(Object,new Ya);this.set(Date,new X);this.set(N,new $a);this.set(K,new ab);this.set(L,new bb);this.set(H,new cb);this.set(T,new db);this.set(R,new eb);this.set(Q,new fb)}gb.prototype.get=function(a){return this.p[Ra(a)]};gb.prototype.set=function(a,b){this.p[Ra(a)]=b};function hb(a){this.F=a||{};this.P=null!=this.F.preferStrings?this.F.preferStrings:!0;this.Z=this.F.objectBuilder||null;this.p=new gb;if(this.F.handlers){var b=this;this.F.handlers.forEach(function(a,d){b.p.set(d,a)})}this.R=this.F.unpack||function(a){return a instanceof R&&null===a.a?a.g:!1};this.N=this.F&&this.F.verbose||!1}function Y(a,b,c,d,e){a=a+b+c;return e?e.write(a,d):a}
-function ib(a,b,c){var d=[];if(E(b))for(var e=0;e<b.length;e++)d.push(Z(a,b[e],!1,c));else b.forEach(function(b){d.push(Z(a,b,!1,c))});return d}function jb(a,b){if("string"!==typeof b){var c=a.p.get(V(b));return c&&1===c.tag(b).length}return!0}
-function kb(a,b){var c=a.R(b),d=!0;if(c){for(var e=0;e<c.length&&(d=jb(a,c[e]),d);e+=2);return d}if(b.keys&&(c=b.keys(),c.next)){for(step=c.next();!step.done;){d=jb(a,step.value);if(!d)break;step=c.next()}return d}if(b.forEach)return b.forEach(function(b,c){d=d&&jb(a,c)}),d;throw Error("Cannot walk keys of object type "+V(b).name);}
-function lb(a,b,c){if(b.constructor===Object||null!=b.forEach){if(a.N){if(null!=b.forEach)if(kb(a,b)){var d={};b.forEach(function(b,e){d[Z(a,e,!0,!1)]=Z(a,b,!1,c)})}else{var e=a.R(b),f=[],g=Y("~#","cmap","",!0,c);if(e)for(var h=0;h<e.length;h+=2)f.push(Z(a,e[h],!0,!1)),f.push(Z(a,e[h+1],!1,c));else b.forEach(function(b,d){f.push(Z(a,d,!0,!1));f.push(Z(a,b,!1,c))});d={};d[g]=f}else for(d={},e=D(b),h=0;h<e.length;h++)d[Z(a,e[h],!0,!1)]=Z(a,b[e[h]],!1,c);return d}if(null!=b.forEach){if(kb(a,b)){e=a.R(b);
-d=["^ "];if(e)for(h=0;h<e.length;h+=2)d.push(Z(a,e[h],!0,c)),d.push(Z(a,e[h+1],!1,c));else b.forEach(function(b,e){d.push(Z(a,e,!0,c));d.push(Z(a,b,!1,c))});return d}e=a.R(b);f=[];g=Y("~#","cmap","",!0,c);if(e)for(h=0;h<e.length;h+=2)f.push(Z(a,e[h],!0,c)),f.push(Z(a,e[h+1],!1,c));else b.forEach(function(b,d){f.push(Z(a,d,!0,c));f.push(Z(a,b,!1,c))});return[g,f]}d=["^ "];e=D(b);for(h=0;h<e.length;h++)d.push(Z(a,e[h],!0,c)),d.push(Z(a,b[e[h]],!1,c));return d}if(null!=a.Z)return a.Z(b,function(b){return Z(a,
-b,!0,c)},function(b){return Z(a,b,!1,c)});h=V(b).name;e=Error("Cannot write "+h);e.data={V:b,type:h};throw e;}
-function Z(a,b,c,d){var e=a.p.get(V(b)),f=e?e.tag(b):null,g=e?e.rep(b):null;if(null!=e&&null!=f)switch(f){case "_":return c?Y("~","_","",c,d):null;case "s":return 0<g.length?(a=g.charAt(0),a="~"===a||"^"===a||"`"===a?"~"+g:g):a=g,Y("","",a,c,d);case "?":return c?Y("~","?",g.toString()[0],c,d):g;case "i":return c||"string"===typeof g||g instanceof l?Y("~","i",g.toString(),c,d):g;case "d":return c?Y(g.ea,"d",g,c,d):g;case "b":return Y("~","b",g,c,d);case "'":return a.N?(b={},c=Y("~#","'","",!0,d),b[c]=
-Z(a,g,!1,d),d=b):d=[Y("~#","'","",!0,d),Z(a,g,!1,d)],d;case "array":return ib(a,g,d);case "map":return lb(a,g,d);default:a:{if(1===f.length){if("string"===typeof g){d=Y("~",f,g,c,d);break a}if(c||a.P){(a=a.N&&e.Y())?(f=a.tag(b),g=a.o(b,a)):g=e.o(b,e);if(null!==g){d=Y("~",f,g,c,d);break a}d=Error('Tag "'+f+'" cannot be encoded as string');d.data={tag:f,rep:g,V:b};throw d;}}b=f;c=g;a.N?(g={},g[Y("~#",b,"",!0,d)]=Z(a,c,!1,d),d=g):d=[Y("~#",b,"",!0,d),Z(a,c,!1,d)]}return d}else throw d=V(b).name,a=Error("Cannot write "+
-d),a.data={V:b,type:d},a;}function mb(a,b){var c=a.p.get(V(b));if(null!=c)return 1===c.tag(b).length?Ea(b):b;var c=V(b).name,d=Error("Cannot write "+c);d.data={V:b,type:c};throw d;}function $(a,b){this.L=a;this.options=b||{};this.q=!1===this.options.cache?null:this.options.cache?this.options.cache:new Ja}$.prototype.ca=function(){return this.L};$.prototype.marshaller=$.prototype.ca;
-$.prototype.write=function(a,b){var c=null,c=b||{};asMapKey=c.asMapKey||!1;cache=this.L.N?!1:this.q;if(!1===c.marshalTop)c=Z(this.L,a,asMapKey,cache);else var c=this.L,d=asMapKey,e=cache,c=JSON.stringify(Z(c,mb(c,a),d,e));null!=this.q&&this.q.clear();return c};$.prototype.write=$.prototype.write;$.prototype.register=function(a,b){this.L.p.set(a,b)};$.prototype.register=$.prototype.register;k("transit.reader",function(a,b){if("json"===a||"json-verbose"===a||null==a){var c=new Oa(b);return new Pa(c,b)}throw Error("Cannot create reader of type "+a);});k("transit.writer",function(a,b){if("json"===a||"json-verbose"===a||null==a){"json-verbose"===a&&(null==b&&(b={}),b.verbose=!0);var c=new hb(b);return new $(c,b)}c=Error('Type must be "json"');c.data={type:a};throw c;});
-k("transit.makeBuilder",function(a){function b(){}b.prototype.init=a.init;b.prototype.add=a.add;b.prototype.finalize=a.finalize;b.prototype.fromArray=a.fromArray;return new b});k("transit.makeWriteHandler",function(a){function b(){}b.prototype.tag=a.tag;b.prototype.rep=a.rep;b.prototype.o=a.stringRep;b.prototype.Y=a.getVerboseHandler;return new b});k("transit.date",xa);k("transit.integer",qa);
-k("transit.isInteger",function(a){return a instanceof l?!0:"number"===typeof a&&!isNaN(a)&&Infinity!==a&&parseFloat(a)===parseInt(a)});k("transit.uuid",function(a){return wa(a)});k("transit.isUUID",function(a){return a instanceof N});k("transit.bigInt",ra);k("transit.isBigInt",function(a){return a instanceof H&&"n"===a.tag});k("transit.bigDec",ta);k("transit.isBigDec",function(a){return a instanceof H&&"f"===a.tag});k("transit.keyword",ua);k("transit.isKeyword",function(a){return a instanceof K});
-k("transit.symbol",va);k("transit.isSymbol",function(a){return a instanceof L});k("transit.binary",ya);k("transit.isBinary",function(a){return a instanceof H&&"b"===a.tag});k("transit.uri",za);k("transit.isURI",function(a){return a instanceof H&&"r"===a.tag});k("transit.map",S);k("transit.isMap",function(a){return a instanceof R||a instanceof Q});k("transit.set",Da);k("transit.isSet",function(a){return a instanceof T});k("transit.list",Fa);
-k("transit.isList",function(a){return a instanceof na.fa&&"list"===a.tag});k("transit.quoted",Ea);k("transit.isQuoted",function(a){return a instanceof H&&"'"===a.tag});k("transit.tagged",J);k("transit.isTaggedValue",function(a){return a instanceof H});k("transit.link",Ga);k("transit.isLink",function(a){return a instanceof H&&"link"===a.tag});k("transit.hash",G);k("transit.hashKey","$com$cognitect$transit$hashCode$");k("transit.hashMapLike",la);k("transit.hashArrayLike",ma);k("transit.equals",F);
-k("transit.extendToEQ",function(a,b){a.w=b.hashCode;a.s=b.equals;return a});k("transit.mapToObject",function(a){var b={};a.forEach(function(a,d){if("string"!==typeof d)throw Error("Cannot convert map with non-string keys");b[d]=a});return b});k("transit.decoder",function(a){return new U(a)});k("transit.UUIDfromString",wa);k("transit.randomUUID",na.ga);k("transit.stringableKeys",kb);})();
+;(function(){var COMPILED = !0, goog = goog || {};
+goog.global = this;
+goog.isDef = function(a) {
+  return void 0 !== a;
+};
+goog.exportPath_ = function(a, b, c) {
+  a = a.split(".");
+  c = c || goog.global;
+  a[0] in c || !c.execScript || c.execScript("var " + a[0]);
+  for (var d;a.length && (d = a.shift());) {
+    !a.length && goog.isDef(b) ? c[d] = b : c = c[d] ? c[d] : c[d] = {};
+  }
+};
+goog.define = function(a, b) {
+  var c = b;
+  COMPILED || (goog.global.CLOSURE_UNCOMPILED_DEFINES && Object.prototype.hasOwnProperty.call(goog.global.CLOSURE_UNCOMPILED_DEFINES, a) ? c = goog.global.CLOSURE_UNCOMPILED_DEFINES[a] : goog.global.CLOSURE_DEFINES && Object.prototype.hasOwnProperty.call(goog.global.CLOSURE_DEFINES, a) && (c = goog.global.CLOSURE_DEFINES[a]));
+  goog.exportPath_(a, c);
+};
+goog.DEBUG = !0;
+goog.LOCALE = "en";
+goog.TRUSTED_SITE = !0;
+goog.STRICT_MODE_COMPATIBLE = !1;
+goog.provide = function(a) {
+  if (!COMPILED) {
+    if (goog.isProvided_(a)) {
+      throw Error('Namespace "' + a + '" already declared.');
+    }
+    delete goog.implicitNamespaces_[a];
+    for (var b = a;(b = b.substring(0, b.lastIndexOf("."))) && !goog.getObjectByName(b);) {
+      goog.implicitNamespaces_[b] = !0;
+    }
+  }
+  goog.exportPath_(a);
+};
+goog.setTestOnly = function(a) {
+  if (COMPILED && !goog.DEBUG) {
+    throw a = a || "", Error("Importing test-only code into non-debug environment" + (a ? ": " + a : "."));
+  }
+};
+goog.forwardDeclare = function(a) {
+};
+COMPILED || (goog.isProvided_ = function(a) {
+  return!goog.implicitNamespaces_[a] && goog.isDefAndNotNull(goog.getObjectByName(a));
+}, goog.implicitNamespaces_ = {});
+goog.getObjectByName = function(a, b) {
+  for (var c = a.split("."), d = b || goog.global, e;e = c.shift();) {
+    if (goog.isDefAndNotNull(d[e])) {
+      d = d[e];
+    } else {
+      return null;
+    }
+  }
+  return d;
+};
+goog.globalize = function(a, b) {
+  var c = b || goog.global, d;
+  for (d in a) {
+    c[d] = a[d];
+  }
+};
+goog.addDependency = function(a, b, c) {
+  if (goog.DEPENDENCIES_ENABLED) {
+    var d;
+    a = a.replace(/\\/g, "/");
+    for (var e = goog.dependencies_, f = 0;d = b[f];f++) {
+      e.nameToPath[d] = a, a in e.pathToNames || (e.pathToNames[a] = {}), e.pathToNames[a][d] = !0;
+    }
+    for (d = 0;b = c[d];d++) {
+      a in e.requires || (e.requires[a] = {}), e.requires[a][b] = !0;
+    }
+  }
+};
+goog.ENABLE_DEBUG_LOADER = !0;
+goog.require = function(a) {
+  if (!COMPILED && !goog.isProvided_(a)) {
+    if (goog.ENABLE_DEBUG_LOADER) {
+      var b = goog.getPathFromDeps_(a);
+      if (b) {
+        goog.included_[b] = !0;
+        goog.writeScripts_();
+        return;
+      }
+    }
+    a = "goog.require could not find: " + a;
+    goog.global.console && goog.global.console.error(a);
+    throw Error(a);
+  }
+};
+goog.basePath = "";
+goog.nullFunction = function() {
+};
+goog.identityFunction = function(a, b) {
+  return a;
+};
+goog.abstractMethod = function() {
+  throw Error("unimplemented abstract method");
+};
+goog.addSingletonGetter = function(a) {
+  a.getInstance = function() {
+    if (a.instance_) {
+      return a.instance_;
+    }
+    goog.DEBUG && (goog.instantiatedSingletons_[goog.instantiatedSingletons_.length] = a);
+    return a.instance_ = new a;
+  };
+};
+goog.instantiatedSingletons_ = [];
+goog.DEPENDENCIES_ENABLED = !COMPILED && goog.ENABLE_DEBUG_LOADER;
+goog.DEPENDENCIES_ENABLED && (goog.included_ = {}, goog.dependencies_ = {pathToNames:{}, nameToPath:{}, requires:{}, visited:{}, written:{}}, goog.inHtmlDocument_ = function() {
+  var a = goog.global.document;
+  return "undefined" != typeof a && "write" in a;
+}, goog.findBasePath_ = function() {
+  if (goog.global.CLOSURE_BASE_PATH) {
+    goog.basePath = goog.global.CLOSURE_BASE_PATH;
+  } else {
+    if (goog.inHtmlDocument_()) {
+      for (var a = goog.global.document.getElementsByTagName("script"), b = a.length - 1;0 <= b;--b) {
+        var c = a[b].src, d = c.lastIndexOf("?"), d = -1 == d ? c.length : d;
+        if ("base.js" == c.substr(d - 7, 7)) {
+          goog.basePath = c.substr(0, d - 7);
+          break;
+        }
+      }
+    }
+  }
+}, goog.importScript_ = function(a) {
+  var b = goog.global.CLOSURE_IMPORT_SCRIPT || goog.writeScriptTag_;
+  !goog.dependencies_.written[a] && b(a) && (goog.dependencies_.written[a] = !0);
+}, goog.writeScriptTag_ = function(a) {
+  if (goog.inHtmlDocument_()) {
+    var b = goog.global.document;
+    if ("complete" == b.readyState) {
+      if (/\bdeps.js$/.test(a)) {
+        return!1;
+      }
+      throw Error('Cannot write "' + a + '" after document load');
+    }
+    b.write('<script type="text/javascript" src="' + a + '">\x3c/script>');
+    return!0;
+  }
+  return!1;
+}, goog.writeScripts_ = function() {
+  function a(e) {
+    if (!(e in d.written)) {
+      if (!(e in d.visited) && (d.visited[e] = !0, e in d.requires)) {
+        for (var g in d.requires[e]) {
+          if (!goog.isProvided_(g)) {
+            if (g in d.nameToPath) {
+              a(d.nameToPath[g]);
+            } else {
+              throw Error("Undefined nameToPath for " + g);
+            }
+          }
+        }
+      }
+      e in c || (c[e] = !0, b.push(e));
+    }
+  }
+  var b = [], c = {}, d = goog.dependencies_, e;
+  for (e in goog.included_) {
+    d.written[e] || a(e);
+  }
+  for (e = 0;e < b.length;e++) {
+    if (b[e]) {
+      goog.importScript_(goog.basePath + b[e]);
+    } else {
+      throw Error("Undefined script input");
+    }
+  }
+}, goog.getPathFromDeps_ = function(a) {
+  return a in goog.dependencies_.nameToPath ? goog.dependencies_.nameToPath[a] : null;
+}, goog.findBasePath_(), goog.global.CLOSURE_NO_DEPS || goog.importScript_(goog.basePath + "deps.js"));
+goog.typeOf = function(a) {
+  var b = typeof a;
+  if ("object" == b) {
+    if (a) {
+      if (a instanceof Array) {
+        return "array";
+      }
+      if (a instanceof Object) {
+        return b;
+      }
+      var c = Object.prototype.toString.call(a);
+      if ("[object Window]" == c) {
+        return "object";
+      }
+      if ("[object Array]" == c || "number" == typeof a.length && "undefined" != typeof a.splice && "undefined" != typeof a.propertyIsEnumerable && !a.propertyIsEnumerable("splice")) {
+        return "array";
+      }
+      if ("[object Function]" == c || "undefined" != typeof a.call && "undefined" != typeof a.propertyIsEnumerable && !a.propertyIsEnumerable("call")) {
+        return "function";
+      }
+    } else {
+      return "null";
+    }
+  } else {
+    if ("function" == b && "undefined" == typeof a.call) {
+      return "object";
+    }
+  }
+  return b;
+};
+goog.isNull = function(a) {
+  return null === a;
+};
+goog.isDefAndNotNull = function(a) {
+  return null != a;
+};
+goog.isArray = function(a) {
+  return "array" == goog.typeOf(a);
+};
+goog.isArrayLike = function(a) {
+  var b = goog.typeOf(a);
+  return "array" == b || "object" == b && "number" == typeof a.length;
+};
+goog.isDateLike = function(a) {
+  return goog.isObject(a) && "function" == typeof a.getFullYear;
+};
+goog.isString = function(a) {
+  return "string" == typeof a;
+};
+goog.isBoolean = function(a) {
+  return "boolean" == typeof a;
+};
+goog.isNumber = function(a) {
+  return "number" == typeof a;
+};
+goog.isFunction = function(a) {
+  return "function" == goog.typeOf(a);
+};
+goog.isObject = function(a) {
+  var b = typeof a;
+  return "object" == b && null != a || "function" == b;
+};
+goog.getUid = function(a) {
+  return a[goog.UID_PROPERTY_] || (a[goog.UID_PROPERTY_] = ++goog.uidCounter_);
+};
+goog.hasUid = function(a) {
+  return!!a[goog.UID_PROPERTY_];
+};
+goog.removeUid = function(a) {
+  "removeAttribute" in a && a.removeAttribute(goog.UID_PROPERTY_);
+  try {
+    delete a[goog.UID_PROPERTY_];
+  } catch (b) {
+  }
+};
+goog.UID_PROPERTY_ = "closure_uid_" + (1E9 * Math.random() >>> 0);
+goog.uidCounter_ = 0;
+goog.getHashCode = goog.getUid;
+goog.removeHashCode = goog.removeUid;
+goog.cloneObject = function(a) {
+  var b = goog.typeOf(a);
+  if ("object" == b || "array" == b) {
+    if (a.clone) {
+      return a.clone();
+    }
+    var b = "array" == b ? [] : {}, c;
+    for (c in a) {
+      b[c] = goog.cloneObject(a[c]);
+    }
+    return b;
+  }
+  return a;
+};
+goog.bindNative_ = function(a, b, c) {
+  return a.call.apply(a.bind, arguments);
+};
+goog.bindJs_ = function(a, b, c) {
+  if (!a) {
+    throw Error();
+  }
+  if (2 < arguments.length) {
+    var d = Array.prototype.slice.call(arguments, 2);
+    return function() {
+      var c = Array.prototype.slice.call(arguments);
+      Array.prototype.unshift.apply(c, d);
+      return a.apply(b, c);
+    };
+  }
+  return function() {
+    return a.apply(b, arguments);
+  };
+};
+goog.bind = function(a, b, c) {
+  Function.prototype.bind && -1 != Function.prototype.bind.toString().indexOf("native code") ? goog.bind = goog.bindNative_ : goog.bind = goog.bindJs_;
+  return goog.bind.apply(null, arguments);
+};
+goog.partial = function(a, b) {
+  var c = Array.prototype.slice.call(arguments, 1);
+  return function() {
+    var b = c.slice();
+    b.push.apply(b, arguments);
+    return a.apply(this, b);
+  };
+};
+goog.mixin = function(a, b) {
+  for (var c in b) {
+    a[c] = b[c];
+  }
+};
+goog.now = goog.TRUSTED_SITE && Date.now || function() {
+  return+new Date;
+};
+goog.globalEval = function(a) {
+  if (goog.global.execScript) {
+    goog.global.execScript(a, "JavaScript");
+  } else {
+    if (goog.global.eval) {
+      if (null == goog.evalWorksForGlobals_ && (goog.global.eval("var _et_ = 1;"), "undefined" != typeof goog.global._et_ ? (delete goog.global._et_, goog.evalWorksForGlobals_ = !0) : goog.evalWorksForGlobals_ = !1), goog.evalWorksForGlobals_) {
+        goog.global.eval(a);
+      } else {
+        var b = goog.global.document, c = b.createElement("script");
+        c.type = "text/javascript";
+        c.defer = !1;
+        c.appendChild(b.createTextNode(a));
+        b.body.appendChild(c);
+        b.body.removeChild(c);
+      }
+    } else {
+      throw Error("goog.globalEval not available");
+    }
+  }
+};
+goog.evalWorksForGlobals_ = null;
+goog.getCssName = function(a, b) {
+  var c = function(a) {
+    return goog.cssNameMapping_[a] || a;
+  }, d = function(a) {
+    a = a.split("-");
+    for (var b = [], d = 0;d < a.length;d++) {
+      b.push(c(a[d]));
+    }
+    return b.join("-");
+  }, d = goog.cssNameMapping_ ? "BY_WHOLE" == goog.cssNameMappingStyle_ ? c : d : function(a) {
+    return a;
+  };
+  return b ? a + "-" + d(b) : d(a);
+};
+goog.setCssNameMapping = function(a, b) {
+  goog.cssNameMapping_ = a;
+  goog.cssNameMappingStyle_ = b;
+};
+!COMPILED && goog.global.CLOSURE_CSS_NAME_MAPPING && (goog.cssNameMapping_ = goog.global.CLOSURE_CSS_NAME_MAPPING);
+goog.getMsg = function(a, b) {
+  b && (a = a.replace(/\{\$([^}]+)}/g, function(a, d) {
+    return d in b ? b[d] : a;
+  }));
+  return a;
+};
+goog.getMsgWithFallback = function(a, b) {
+  return a;
+};
+goog.exportSymbol = function(a, b, c) {
+  goog.exportPath_(a, b, c);
+};
+goog.exportProperty = function(a, b, c) {
+  a[b] = c;
+};
+goog.inherits = function(a, b) {
+  function c() {
+  }
+  c.prototype = b.prototype;
+  a.superClass_ = b.prototype;
+  a.prototype = new c;
+  a.prototype.constructor = a;
+  a.base = function(a, c, f) {
+    var g = Array.prototype.slice.call(arguments, 2);
+    return b.prototype[c].apply(a, g);
+  };
+};
+goog.base = function(a, b, c) {
+  var d = arguments.callee.caller;
+  if (goog.STRICT_MODE_COMPATIBLE || goog.DEBUG && !d) {
+    throw Error("arguments.caller not defined.  goog.base() cannot be used with strict mode code. See http://www.ecma-international.org/ecma-262/5.1/#sec-C");
+  }
+  if (d.superClass_) {
+    return d.superClass_.constructor.apply(a, Array.prototype.slice.call(arguments, 1));
+  }
+  for (var e = Array.prototype.slice.call(arguments, 2), f = !1, g = a.constructor;g;g = g.superClass_ && g.superClass_.constructor) {
+    if (g.prototype[b] === d) {
+      f = !0;
+    } else {
+      if (f) {
+        return g.prototype[b].apply(a, e);
+      }
+    }
+  }
+  if (a[b] === d) {
+    return a.constructor.prototype[b].apply(a, e);
+  }
+  throw Error("goog.base called from a method of one name to a method of a different name");
+};
+goog.scope = function(a) {
+  a.call(goog.global);
+};
+COMPILED || (goog.global.COMPILED = COMPILED);
+goog.object = {};
+goog.object.forEach = function(a, b, c) {
+  for (var d in a) {
+    b.call(c, a[d], d, a);
+  }
+};
+goog.object.filter = function(a, b, c) {
+  var d = {}, e;
+  for (e in a) {
+    b.call(c, a[e], e, a) && (d[e] = a[e]);
+  }
+  return d;
+};
+goog.object.map = function(a, b, c) {
+  var d = {}, e;
+  for (e in a) {
+    d[e] = b.call(c, a[e], e, a);
+  }
+  return d;
+};
+goog.object.some = function(a, b, c) {
+  for (var d in a) {
+    if (b.call(c, a[d], d, a)) {
+      return!0;
+    }
+  }
+  return!1;
+};
+goog.object.every = function(a, b, c) {
+  for (var d in a) {
+    if (!b.call(c, a[d], d, a)) {
+      return!1;
+    }
+  }
+  return!0;
+};
+goog.object.getCount = function(a) {
+  var b = 0, c;
+  for (c in a) {
+    b++;
+  }
+  return b;
+};
+goog.object.getAnyKey = function(a) {
+  for (var b in a) {
+    return b;
+  }
+};
+goog.object.getAnyValue = function(a) {
+  for (var b in a) {
+    return a[b];
+  }
+};
+goog.object.contains = function(a, b) {
+  return goog.object.containsValue(a, b);
+};
+goog.object.getValues = function(a) {
+  var b = [], c = 0, d;
+  for (d in a) {
+    b[c++] = a[d];
+  }
+  return b;
+};
+goog.object.getKeys = function(a) {
+  var b = [], c = 0, d;
+  for (d in a) {
+    b[c++] = d;
+  }
+  return b;
+};
+goog.object.getValueByKeys = function(a, b) {
+  for (var c = goog.isArrayLike(b), d = c ? b : arguments, c = c ? 0 : 1;c < d.length && (a = a[d[c]], goog.isDef(a));c++) {
+  }
+  return a;
+};
+goog.object.containsKey = function(a, b) {
+  return b in a;
+};
+goog.object.containsValue = function(a, b) {
+  for (var c in a) {
+    if (a[c] == b) {
+      return!0;
+    }
+  }
+  return!1;
+};
+goog.object.findKey = function(a, b, c) {
+  for (var d in a) {
+    if (b.call(c, a[d], d, a)) {
+      return d;
+    }
+  }
+};
+goog.object.findValue = function(a, b, c) {
+  return(b = goog.object.findKey(a, b, c)) && a[b];
+};
+goog.object.isEmpty = function(a) {
+  for (var b in a) {
+    return!1;
+  }
+  return!0;
+};
+goog.object.clear = function(a) {
+  for (var b in a) {
+    delete a[b];
+  }
+};
+goog.object.remove = function(a, b) {
+  var c;
+  (c = b in a) && delete a[b];
+  return c;
+};
+goog.object.add = function(a, b, c) {
+  if (b in a) {
+    throw Error('The object already contains the key "' + b + '"');
+  }
+  goog.object.set(a, b, c);
+};
+goog.object.get = function(a, b, c) {
+  return b in a ? a[b] : c;
+};
+goog.object.set = function(a, b, c) {
+  a[b] = c;
+};
+goog.object.setIfUndefined = function(a, b, c) {
+  return b in a ? a[b] : a[b] = c;
+};
+goog.object.clone = function(a) {
+  var b = {}, c;
+  for (c in a) {
+    b[c] = a[c];
+  }
+  return b;
+};
+goog.object.unsafeClone = function(a) {
+  var b = goog.typeOf(a);
+  if ("object" == b || "array" == b) {
+    if (a.clone) {
+      return a.clone();
+    }
+    var b = "array" == b ? [] : {}, c;
+    for (c in a) {
+      b[c] = goog.object.unsafeClone(a[c]);
+    }
+    return b;
+  }
+  return a;
+};
+goog.object.transpose = function(a) {
+  var b = {}, c;
+  for (c in a) {
+    b[a[c]] = c;
+  }
+  return b;
+};
+goog.object.PROTOTYPE_FIELDS_ = "constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" ");
+goog.object.extend = function(a, b) {
+  for (var c, d, e = 1;e < arguments.length;e++) {
+    d = arguments[e];
+    for (c in d) {
+      a[c] = d[c];
+    }
+    for (var f = 0;f < goog.object.PROTOTYPE_FIELDS_.length;f++) {
+      c = goog.object.PROTOTYPE_FIELDS_[f], Object.prototype.hasOwnProperty.call(d, c) && (a[c] = d[c]);
+    }
+  }
+};
+goog.object.create = function(a) {
+  var b = arguments.length;
+  if (1 == b && goog.isArray(arguments[0])) {
+    return goog.object.create.apply(null, arguments[0]);
+  }
+  if (b % 2) {
+    throw Error("Uneven number of arguments");
+  }
+  for (var c = {}, d = 0;d < b;d += 2) {
+    c[arguments[d]] = arguments[d + 1];
+  }
+  return c;
+};
+goog.object.createSet = function(a) {
+  var b = arguments.length;
+  if (1 == b && goog.isArray(arguments[0])) {
+    return goog.object.createSet.apply(null, arguments[0]);
+  }
+  for (var c = {}, d = 0;d < b;d++) {
+    c[arguments[d]] = !0;
+  }
+  return c;
+};
+goog.object.createImmutableView = function(a) {
+  var b = a;
+  Object.isFrozen && !Object.isFrozen(a) && (b = Object.create(a), Object.freeze(b));
+  return b;
+};
+goog.object.isImmutableView = function(a) {
+  return!!Object.isFrozen && Object.isFrozen(a);
+};
+goog.math = {};
+goog.math.Long = function(a, b) {
+  this.low_ = a | 0;
+  this.high_ = b | 0;
+};
+goog.math.Long.IntCache_ = {};
+goog.math.Long.fromInt = function(a) {
+  if (-128 <= a && 128 > a) {
+    var b = goog.math.Long.IntCache_[a];
+    if (b) {
+      return b;
+    }
+  }
+  b = new goog.math.Long(a | 0, 0 > a ? -1 : 0);
+  -128 <= a && 128 > a && (goog.math.Long.IntCache_[a] = b);
+  return b;
+};
+goog.math.Long.fromNumber = function(a) {
+  return isNaN(a) || !isFinite(a) ? goog.math.Long.ZERO : a <= -goog.math.Long.TWO_PWR_63_DBL_ ? goog.math.Long.MIN_VALUE : a + 1 >= goog.math.Long.TWO_PWR_63_DBL_ ? goog.math.Long.MAX_VALUE : 0 > a ? goog.math.Long.fromNumber(-a).negate() : new goog.math.Long(a % goog.math.Long.TWO_PWR_32_DBL_ | 0, a / goog.math.Long.TWO_PWR_32_DBL_ | 0);
+};
+goog.math.Long.fromBits = function(a, b) {
+  return new goog.math.Long(a, b);
+};
+goog.math.Long.fromString = function(a, b) {
+  if (0 == a.length) {
+    throw Error("number format error: empty string");
+  }
+  var c = b || 10;
+  if (2 > c || 36 < c) {
+    throw Error("radix out of range: " + c);
+  }
+  if ("-" == a.charAt(0)) {
+    return goog.math.Long.fromString(a.substring(1), c).negate();
+  }
+  if (0 <= a.indexOf("-")) {
+    throw Error('number format error: interior "-" character: ' + a);
+  }
+  for (var d = goog.math.Long.fromNumber(Math.pow(c, 8)), e = goog.math.Long.ZERO, f = 0;f < a.length;f += 8) {
+    var g = Math.min(8, a.length - f), h = parseInt(a.substring(f, f + g), c);
+    8 > g ? (g = goog.math.Long.fromNumber(Math.pow(c, g)), e = e.multiply(g).add(goog.math.Long.fromNumber(h))) : (e = e.multiply(d), e = e.add(goog.math.Long.fromNumber(h)));
+  }
+  return e;
+};
+goog.math.Long.TWO_PWR_16_DBL_ = 65536;
+goog.math.Long.TWO_PWR_24_DBL_ = 16777216;
+goog.math.Long.TWO_PWR_32_DBL_ = goog.math.Long.TWO_PWR_16_DBL_ * goog.math.Long.TWO_PWR_16_DBL_;
+goog.math.Long.TWO_PWR_31_DBL_ = goog.math.Long.TWO_PWR_32_DBL_ / 2;
+goog.math.Long.TWO_PWR_48_DBL_ = goog.math.Long.TWO_PWR_32_DBL_ * goog.math.Long.TWO_PWR_16_DBL_;
+goog.math.Long.TWO_PWR_64_DBL_ = goog.math.Long.TWO_PWR_32_DBL_ * goog.math.Long.TWO_PWR_32_DBL_;
+goog.math.Long.TWO_PWR_63_DBL_ = goog.math.Long.TWO_PWR_64_DBL_ / 2;
+goog.math.Long.ZERO = goog.math.Long.fromInt(0);
+goog.math.Long.ONE = goog.math.Long.fromInt(1);
+goog.math.Long.NEG_ONE = goog.math.Long.fromInt(-1);
+goog.math.Long.MAX_VALUE = goog.math.Long.fromBits(-1, 2147483647);
+goog.math.Long.MIN_VALUE = goog.math.Long.fromBits(0, -2147483648);
+goog.math.Long.TWO_PWR_24_ = goog.math.Long.fromInt(16777216);
+goog.math.Long.prototype.toInt = function() {
+  return this.low_;
+};
+goog.math.Long.prototype.toNumber = function() {
+  return this.high_ * goog.math.Long.TWO_PWR_32_DBL_ + this.getLowBitsUnsigned();
+};
+goog.math.Long.prototype.toString = function(a) {
+  a = a || 10;
+  if (2 > a || 36 < a) {
+    throw Error("radix out of range: " + a);
+  }
+  if (this.isZero()) {
+    return "0";
+  }
+  if (this.isNegative()) {
+    if (this.equals(goog.math.Long.MIN_VALUE)) {
+      var b = goog.math.Long.fromNumber(a), c = this.div(b), b = c.multiply(b).subtract(this);
+      return c.toString(a) + b.toInt().toString(a);
+    }
+    return "-" + this.negate().toString(a);
+  }
+  for (var c = goog.math.Long.fromNumber(Math.pow(a, 6)), b = this, d = "";;) {
+    var e = b.div(c), f = b.subtract(e.multiply(c)).toInt().toString(a), b = e;
+    if (b.isZero()) {
+      return f + d;
+    }
+    for (;6 > f.length;) {
+      f = "0" + f;
+    }
+    d = "" + f + d;
+  }
+};
+goog.math.Long.prototype.getHighBits = function() {
+  return this.high_;
+};
+goog.math.Long.prototype.getLowBits = function() {
+  return this.low_;
+};
+goog.math.Long.prototype.getLowBitsUnsigned = function() {
+  return 0 <= this.low_ ? this.low_ : goog.math.Long.TWO_PWR_32_DBL_ + this.low_;
+};
+goog.math.Long.prototype.getNumBitsAbs = function() {
+  if (this.isNegative()) {
+    return this.equals(goog.math.Long.MIN_VALUE) ? 64 : this.negate().getNumBitsAbs();
+  }
+  for (var a = 0 != this.high_ ? this.high_ : this.low_, b = 31;0 < b && 0 == (a & 1 << b);b--) {
+  }
+  return 0 != this.high_ ? b + 33 : b + 1;
+};
+goog.math.Long.prototype.isZero = function() {
+  return 0 == this.high_ && 0 == this.low_;
+};
+goog.math.Long.prototype.isNegative = function() {
+  return 0 > this.high_;
+};
+goog.math.Long.prototype.isOdd = function() {
+  return 1 == (this.low_ & 1);
+};
+goog.math.Long.prototype.equals = function(a) {
+  return this.high_ == a.high_ && this.low_ == a.low_;
+};
+goog.math.Long.prototype.notEquals = function(a) {
+  return this.high_ != a.high_ || this.low_ != a.low_;
+};
+goog.math.Long.prototype.lessThan = function(a) {
+  return 0 > this.compare(a);
+};
+goog.math.Long.prototype.lessThanOrEqual = function(a) {
+  return 0 >= this.compare(a);
+};
+goog.math.Long.prototype.greaterThan = function(a) {
+  return 0 < this.compare(a);
+};
+goog.math.Long.prototype.greaterThanOrEqual = function(a) {
+  return 0 <= this.compare(a);
+};
+goog.math.Long.prototype.compare = function(a) {
+  if (this.equals(a)) {
+    return 0;
+  }
+  var b = this.isNegative(), c = a.isNegative();
+  return b && !c ? -1 : !b && c ? 1 : this.subtract(a).isNegative() ? -1 : 1;
+};
+goog.math.Long.prototype.negate = function() {
+  return this.equals(goog.math.Long.MIN_VALUE) ? goog.math.Long.MIN_VALUE : this.not().add(goog.math.Long.ONE);
+};
+goog.math.Long.prototype.add = function(a) {
+  var b = this.high_ >>> 16, c = this.high_ & 65535, d = this.low_ >>> 16, e = a.high_ >>> 16, f = a.high_ & 65535, g = a.low_ >>> 16, h;
+  h = 0 + ((this.low_ & 65535) + (a.low_ & 65535));
+  a = 0 + (h >>> 16);
+  a += d + g;
+  d = 0 + (a >>> 16);
+  d += c + f;
+  c = 0 + (d >>> 16);
+  c = c + (b + e) & 65535;
+  return goog.math.Long.fromBits((a & 65535) << 16 | h & 65535, c << 16 | d & 65535);
+};
+goog.math.Long.prototype.subtract = function(a) {
+  return this.add(a.negate());
+};
+goog.math.Long.prototype.multiply = function(a) {
+  if (this.isZero() || a.isZero()) {
+    return goog.math.Long.ZERO;
+  }
+  if (this.equals(goog.math.Long.MIN_VALUE)) {
+    return a.isOdd() ? goog.math.Long.MIN_VALUE : goog.math.Long.ZERO;
+  }
+  if (a.equals(goog.math.Long.MIN_VALUE)) {
+    return this.isOdd() ? goog.math.Long.MIN_VALUE : goog.math.Long.ZERO;
+  }
+  if (this.isNegative()) {
+    return a.isNegative() ? this.negate().multiply(a.negate()) : this.negate().multiply(a).negate();
+  }
+  if (a.isNegative()) {
+    return this.multiply(a.negate()).negate();
+  }
+  if (this.lessThan(goog.math.Long.TWO_PWR_24_) && a.lessThan(goog.math.Long.TWO_PWR_24_)) {
+    return goog.math.Long.fromNumber(this.toNumber() * a.toNumber());
+  }
+  var b = this.high_ >>> 16, c = this.high_ & 65535, d = this.low_ >>> 16, e = this.low_ & 65535, f = a.high_ >>> 16, g = a.high_ & 65535, h = a.low_ >>> 16;
+  a = a.low_ & 65535;
+  var m, k, l, n;
+  n = 0 + e * a;
+  l = 0 + (n >>> 16);
+  l += d * a;
+  k = 0 + (l >>> 16);
+  l = (l & 65535) + e * h;
+  k += l >>> 16;
+  l &= 65535;
+  k += c * a;
+  m = 0 + (k >>> 16);
+  k = (k & 65535) + d * h;
+  m += k >>> 16;
+  k &= 65535;
+  k += e * g;
+  m += k >>> 16;
+  k &= 65535;
+  m = m + (b * a + c * h + d * g + e * f) & 65535;
+  return goog.math.Long.fromBits(l << 16 | n & 65535, m << 16 | k);
+};
+goog.math.Long.prototype.div = function(a) {
+  if (a.isZero()) {
+    throw Error("division by zero");
+  }
+  if (this.isZero()) {
+    return goog.math.Long.ZERO;
+  }
+  if (this.equals(goog.math.Long.MIN_VALUE)) {
+    if (a.equals(goog.math.Long.ONE) || a.equals(goog.math.Long.NEG_ONE)) {
+      return goog.math.Long.MIN_VALUE;
+    }
+    if (a.equals(goog.math.Long.MIN_VALUE)) {
+      return goog.math.Long.ONE;
+    }
+    var b = this.shiftRight(1).div(a).shiftLeft(1);
+    if (b.equals(goog.math.Long.ZERO)) {
+      return a.isNegative() ? goog.math.Long.ONE : goog.math.Long.NEG_ONE;
+    }
+    var c = this.subtract(a.multiply(b));
+    return b.add(c.div(a));
+  }
+  if (a.equals(goog.math.Long.MIN_VALUE)) {
+    return goog.math.Long.ZERO;
+  }
+  if (this.isNegative()) {
+    return a.isNegative() ? this.negate().div(a.negate()) : this.negate().div(a).negate();
+  }
+  if (a.isNegative()) {
+    return this.div(a.negate()).negate();
+  }
+  for (var d = goog.math.Long.ZERO, c = this;c.greaterThanOrEqual(a);) {
+    for (var b = Math.max(1, Math.floor(c.toNumber() / a.toNumber())), e = Math.ceil(Math.log(b) / Math.LN2), e = 48 >= e ? 1 : Math.pow(2, e - 48), f = goog.math.Long.fromNumber(b), g = f.multiply(a);g.isNegative() || g.greaterThan(c);) {
+      b -= e, f = goog.math.Long.fromNumber(b), g = f.multiply(a);
+    }
+    f.isZero() && (f = goog.math.Long.ONE);
+    d = d.add(f);
+    c = c.subtract(g);
+  }
+  return d;
+};
+goog.math.Long.prototype.modulo = function(a) {
+  return this.subtract(this.div(a).multiply(a));
+};
+goog.math.Long.prototype.not = function() {
+  return goog.math.Long.fromBits(~this.low_, ~this.high_);
+};
+goog.math.Long.prototype.and = function(a) {
+  return goog.math.Long.fromBits(this.low_ & a.low_, this.high_ & a.high_);
+};
+goog.math.Long.prototype.or = function(a) {
+  return goog.math.Long.fromBits(this.low_ | a.low_, this.high_ | a.high_);
+};
+goog.math.Long.prototype.xor = function(a) {
+  return goog.math.Long.fromBits(this.low_ ^ a.low_, this.high_ ^ a.high_);
+};
+goog.math.Long.prototype.shiftLeft = function(a) {
+  a &= 63;
+  if (0 == a) {
+    return this;
+  }
+  var b = this.low_;
+  return 32 > a ? goog.math.Long.fromBits(b << a, this.high_ << a | b >>> 32 - a) : goog.math.Long.fromBits(0, b << a - 32);
+};
+goog.math.Long.prototype.shiftRight = function(a) {
+  a &= 63;
+  if (0 == a) {
+    return this;
+  }
+  var b = this.high_;
+  return 32 > a ? goog.math.Long.fromBits(this.low_ >>> a | b << 32 - a, b >> a) : goog.math.Long.fromBits(b >> a - 32, 0 <= b ? 0 : -1);
+};
+goog.math.Long.prototype.shiftRightUnsigned = function(a) {
+  a &= 63;
+  if (0 == a) {
+    return this;
+  }
+  var b = this.high_;
+  return 32 > a ? goog.math.Long.fromBits(this.low_ >>> a | b << 32 - a, b >>> a) : 32 == a ? goog.math.Long.fromBits(b, 0) : goog.math.Long.fromBits(b >>> a - 32, 0);
+};
+var com = {cognitect:{}};
+com.cognitect.transit = {};
+com.cognitect.transit.util = {};
+com.cognitect.transit.util.objectKeys = "undefined" != typeof Object.keys ? function(a) {
+  return Object.keys(a);
+} : function(a) {
+  return goog.object.getKeys(a);
+};
+com.cognitect.transit.util.isArray = "undefined" != typeof Array.isArray ? function(a) {
+  return Array.isArray(a);
+} : function(a) {
+  return "array" === goog.typeOf(a);
+};
+com.cognitect.transit.util.randInt = function(a) {
+  return Math.round(Math.random() * a);
+};
+com.cognitect.transit.util.randHex = function() {
+  return com.cognitect.transit.util.randInt(15).toString(16);
+};
+com.cognitect.transit.util.randomUUID = function() {
+  var a = (8 | 3 & com.cognitect.transit.util.randInt(14)).toString(16);
+  return com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + "-" + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + "-4" + com.cognitect.transit.util.randHex() + 
+  com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + "-" + a + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + "-" + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + 
+  com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex() + com.cognitect.transit.util.randHex();
+};
+com.cognitect.transit.delimiters = {};
+com.cognitect.transit.delimiters.ESC = "~";
+com.cognitect.transit.delimiters.TAG = "#";
+com.cognitect.transit.delimiters.SUB = "^";
+com.cognitect.transit.delimiters.RES = "`";
+com.cognitect.transit.delimiters.ESC_TAG = "~#";
+com.cognitect.transit.eq = {};
+com.cognitect.transit.eq.transitHashCodeProperty = "$com$cognitect$transit$hashCode$";
+com.cognitect.transit.eq.equals = function(a, b) {
+  if (null == a) {
+    return null == b;
+  }
+  if (a === b) {
+    return!0;
+  }
+  if ("object" === typeof a) {
+    if (com.cognitect.transit.util.isArray(a)) {
+      if (com.cognitect.transit.util.isArray(b) && a.length === b.length) {
+        for (var c = 0;c < a.length;c++) {
+          if (!com.cognitect.transit.eq.equals(a[c], b[c])) {
+            return!1;
+          }
+        }
+        return!0;
+      }
+      return!1;
+    }
+    if (a.com$cognitect$transit$equals) {
+      return a.com$cognitect$transit$equals(b);
+    }
+    if (null != b && "object" === typeof b) {
+      if (b.com$cognitect$transit$equals) {
+        return b.com$cognitect$transit$equals(a);
+      }
+      var d = c = 0, e = com.cognitect.transit.util.objectKeys(b).length, f;
+      for (f in a) {
+        if (a.hasOwnProperty(f)) {
+          if (d++, f == com.cognitect.transit.eq.transitHashCodeProperty) {
+            b[f] || (c = -1);
+          } else {
+            if (!b.hasOwnProperty(f) || !com.cognitect.transit.eq.equals(a[f], b[f])) {
+              return!1;
+            }
+          }
+        }
+      }
+      return d + c === e;
+    }
+  }
+  return!1;
+};
+com.cognitect.transit.eq.hashCombine = function(a, b) {
+  return a ^ b + 2654435769 + (a << 6) + (a >> 2);
+};
+com.cognitect.transit.eq.stringCodeCache = {};
+com.cognitect.transit.eq.stringCodeCacheSize = 0;
+com.cognitect.transit.eq.STR_CACHE_MAX = 256;
+com.cognitect.transit.eq.hashString = function(a) {
+  var b = com.cognitect.transit.eq.stringCodeCache[a];
+  if (null != b) {
+    return b;
+  }
+  for (var c = b = 0;c < a.length;++c) {
+    b = 31 * b + a.charCodeAt(c), b %= 4294967296;
+  }
+  com.cognitect.transit.eq.stringCodeCacheSize++;
+  com.cognitect.transit.eq.stringCodeCacheSize >= com.cognitect.transit.eq.STR_CACHE_MAX && (com.cognitect.transit.eq.stringCodeCache = {}, com.cognitect.transit.eq.stringCodeCacheSize = 1);
+  return com.cognitect.transit.eq.stringCodeCache[a] = b;
+};
+com.cognitect.transit.eq.hashMapLike = function(a) {
+  var b = 0;
+  if (null != a.forEach) {
+    a.forEach(function(a, c, d) {
+      b = (b + (com.cognitect.transit.eq.hashCode(c) ^ com.cognitect.transit.eq.hashCode(a))) % 4503599627370496;
+    });
+  } else {
+    for (var c = com.cognitect.transit.util.objectKeys(a), d = 0;d < c.length;d++) {
+      var e = c[d];
+      if (e !== com.cognitect.transit.eq.transitHashCodeProperty) {
+        var f = a[e], b = (b + (com.cognitect.transit.eq.hashCode(e) ^ com.cognitect.transit.eq.hashCode(f))) % 4503599627370496
+      }
+    }
+  }
+  return b;
+};
+com.cognitect.transit.eq.hashArrayLike = function(a) {
+  var b = a[com.cognitect.transit.eq.transitHashCodeProperty] || 0;
+  if (0 === b) {
+    if (com.cognitect.transit.util.isArray(a)) {
+      for (var c = 0;c < a.length;c++) {
+        b = com.cognitect.transit.eq.hashCombine(b, com.cognitect.transit.eq.hashCode(a[c]));
+      }
+      a[com.cognitect.transit.eq.transitHashCodeProperty] = b;
+    } else {
+      a.forEach && a.forEach(function(a, c) {
+        b = com.cognitect.transit.eq.hashCombine(b, com.cognitect.transit.eq.hashCode(a));
+      });
+    }
+  }
+  return b;
+};
+com.cognitect.transit.eq.hashCode = function(a) {
+  if (null == a) {
+    return 0;
+  }
+  switch(typeof a) {
+    case "number":
+      return a;
+    case "boolean":
+      return!0 === a ? 1 : 0;
+    case "string":
+      return com.cognitect.transit.eq.hashString(a);
+    default:
+      return a instanceof Date ? a.valueOf() : com.cognitect.transit.util.isArray(a) ? com.cognitect.transit.eq.hashArrayLike(a) : a.com$cognitect$transit$hashCode ? a.com$cognitect$transit$hashCode() : a[com.cognitect.transit.eq.transitHashCodeProperty] ? a[com.cognitect.transit.eq.transitHashCodeProperty] : com.cognitect.transit.eq.hashMapLike(a);
+  }
+};
+com.cognitect.transit.eq.extendToEQ = function(a, b) {
+  a.com$cognitect$transit$hashCode = b.hashCode;
+  a.com$cognitect$transit$equals = b.equals;
+  return a;
+};
+com.cognitect.transit.types = {};
+com.cognitect.transit.types.TaggedValue = function(a, b) {
+  this.tag = a;
+  this.rep = b;
+  this.hashCode = -1;
+};
+com.cognitect.transit.types.TaggedValue.prototype.toString = function() {
+  return "[TaggedValue: " + this.tag + ", " + this.rep + "]";
+};
+com.cognitect.transit.types.TaggedValue.prototype.equiv = function(a) {
+  return com.cognitect.transit.eq.equals(this, a);
+};
+com.cognitect.transit.types.TaggedValue.prototype.equiv = com.cognitect.transit.types.TaggedValue.prototype.equiv;
+com.cognitect.transit.types.TaggedValue.prototype.com$cognitect$transit$equals = function(a) {
+  return a instanceof com.cognitect.transit.types.TaggedValue ? this.tag === a.tag && com.cognitect.transit.eq.equals(this.rep, a.rep) : !1;
+};
+com.cognitect.transit.types.TaggedValue.prototype.com$cognitect$transit$hashCode = function() {
+  -1 === this.hashCode && (this.hashCode = com.cognitect.transit.eq.hashCombine(com.cognitect.transit.eq.hashCode(this.tag), com.cognitect.transit.eq.hashCode(this.rep)));
+  return this.hashCode;
+};
+com.cognitect.transit.types.taggedValue = function(a, b) {
+  return new com.cognitect.transit.types.TaggedValue(a, b);
+};
+com.cognitect.transit.types.isTaggedValue = function(a) {
+  return a instanceof com.cognitect.transit.types.TaggedValue;
+};
+com.cognitect.transit.types.nullValue = function() {
+  return null;
+};
+com.cognitect.transit.types.boolValue = function(a) {
+  return "t" === a;
+};
+com.cognitect.transit.types.MAX_INT = goog.math.Long.fromString("9007199254740992");
+com.cognitect.transit.types.MIN_INT = goog.math.Long.fromString("-9007199254740992");
+com.cognitect.transit.types.intValue = function(a) {
+  if ("number" === typeof a || a instanceof goog.math.Long) {
+    return a;
+  }
+  a = goog.math.Long.fromString(a, 10);
+  return a.greaterThan(com.cognitect.transit.types.MAX_INT) || a.lessThan(com.cognitect.transit.types.MIN_INT) ? a : a.toNumber();
+};
+goog.math.Long.prototype.equiv = function(a) {
+  return com.cognitect.transit.eq.equals(this, a);
+};
+goog.math.Long.prototype.equiv = goog.math.Long.prototype.equiv;
+goog.math.Long.prototype.com$cognitect$transit$equals = function(a) {
+  return a instanceof goog.math.Long && this.equals(a);
+};
+goog.math.Long.prototype.com$cognitect$transit$hashCode = function() {
+  return this.toInt();
+};
+com.cognitect.transit.types.isInteger = function(a) {
+  return a instanceof goog.math.Long ? !0 : "number" === typeof a && !isNaN(a) && Infinity !== a && parseFloat(a) === parseInt(a);
+};
+com.cognitect.transit.types.floatValue = function(a) {
+  return parseFloat(a);
+};
+com.cognitect.transit.types.bigInteger = function(a) {
+  return com.cognitect.transit.types.taggedValue("n", a);
+};
+com.cognitect.transit.types.isBigInteger = function(a) {
+  return a instanceof com.cognitect.transit.types.TaggedValue && "n" === a.tag;
+};
+com.cognitect.transit.types.bigDecimalValue = function(a) {
+  return com.cognitect.transit.types.taggedValue("f", a);
+};
+com.cognitect.transit.types.isBigDecimal = function(a) {
+  return a instanceof com.cognitect.transit.types.TaggedValue && "f" === a.tag;
+};
+com.cognitect.transit.types.charValue = function(a) {
+  return a;
+};
+com.cognitect.transit.types.Keyword = function(a) {
+  this.name = a;
+  this.hashCode = -1;
+};
+com.cognitect.transit.types.Keyword.prototype.toString = function() {
+  return ":" + this.name;
+};
+com.cognitect.transit.types.Keyword.prototype.equiv = function(a) {
+  return com.cognitect.transit.eq.equals(this, a);
+};
+com.cognitect.transit.types.Keyword.prototype.equiv = com.cognitect.transit.types.Keyword.prototype.equiv;
+com.cognitect.transit.types.Keyword.prototype.com$cognitect$transit$equals = function(a) {
+  return a instanceof com.cognitect.transit.types.Keyword && this.name == a.name;
+};
+com.cognitect.transit.types.Keyword.prototype.com$cognitect$transit$hashCode = function() {
+  -1 === this.hashCode && (this.hashCode = com.cognitect.transit.eq.hashCode(this.name));
+  return this.hashCode;
+};
+com.cognitect.transit.types.keyword = function(a) {
+  return new com.cognitect.transit.types.Keyword(a);
+};
+com.cognitect.transit.types.isKeyword = function(a) {
+  return a instanceof com.cognitect.transit.types.Keyword;
+};
+com.cognitect.transit.types.Symbol = function(a) {
+  this.name = a;
+  this.hashCode = -1;
+};
+com.cognitect.transit.types.Symbol.prototype.toString = function() {
+  return "[Symbol: " + this.name + "]";
+};
+com.cognitect.transit.types.Symbol.prototype.equiv = function(a) {
+  return com.cognitect.transit.eq.equals(this, a);
+};
+com.cognitect.transit.types.Symbol.prototype.equiv = com.cognitect.transit.types.Symbol.prototype.equiv;
+com.cognitect.transit.types.Symbol.prototype.com$cognitect$transit$equals = function(a) {
+  return a instanceof com.cognitect.transit.types.Symbol && this.name == a.name;
+};
+com.cognitect.transit.types.Symbol.prototype.com$cognitect$transit$hashCode = function() {
+  -1 === this.hashCode && (this.hashCode = com.cognitect.transit.eq.hashCode(this.name));
+  return this.hashCode;
+};
+com.cognitect.transit.types.symbol = function(a) {
+  return new com.cognitect.transit.types.Symbol(a);
+};
+com.cognitect.transit.types.isSymbol = function(a) {
+  return a instanceof com.cognitect.transit.types.Symbol;
+};
+com.cognitect.transit.types.hexFor = function(a, b, c) {
+  var d = "";
+  c = c || b + 1;
+  for (var e = 8 * (7 - b), f = goog.math.Long.fromInt(255).shiftLeft(e);b < c;b++, e -= 8, f = f.shiftRightUnsigned(8)) {
+    var g = a.and(f).shiftRightUnsigned(e).toString(16);
+    1 == g.length && (g = "0" + g);
+    d += g;
+  }
+  return d;
+};
+com.cognitect.transit.types.UUID = function(a, b) {
+  this.high = a;
+  this.low = b;
+  this.hashCode = -1;
+};
+com.cognitect.transit.types.UUID.prototype.getLeastSignificantBits = function() {
+  return this.low;
+};
+com.cognitect.transit.types.UUID.prototype.getMostSignificantBits = function() {
+  return this.high;
+};
+com.cognitect.transit.types.UUID.prototype.toString = function(a) {
+  var b = this.high, c = this.low;
+  a = "" + (com.cognitect.transit.types.hexFor(b, 0, 4) + "-");
+  a += com.cognitect.transit.types.hexFor(b, 4, 6) + "-";
+  a += com.cognitect.transit.types.hexFor(b, 6, 8) + "-";
+  a += com.cognitect.transit.types.hexFor(c, 0, 2) + "-";
+  return a += com.cognitect.transit.types.hexFor(c, 2, 8);
+};
+com.cognitect.transit.types.UUID.prototype.equiv = function(a) {
+  return com.cognitect.transit.eq.equals(this, a);
+};
+com.cognitect.transit.types.UUID.prototype.equiv = com.cognitect.transit.types.UUID.prototype.equiv;
+com.cognitect.transit.types.UUID.prototype.com$cognitect$transit$equals = function(a) {
+  return a instanceof com.cognitect.transit.types.UUID && this.high.equals(a.high) && this.low.equals(a.low);
+};
+com.cognitect.transit.types.UUID.prototype.com$cognitect$transit$hashCode = function() {
+  -1 === this.hashCode && (this.hashCode = com.cognitect.transit.eq.hashCode(this.toString()));
+  return this.hashCode;
+};
+com.cognitect.transit.types.UUIDfromString = function(a) {
+  a = a.replace(/-/g, "");
+  for (var b = null, c = null, d = c = 0, e = 24, f = 0, f = c = 0, e = 24;8 > f;f += 2, e -= 8) {
+    c |= parseInt(a.substring(f, f + 2), 16) << e;
+  }
+  d = 0;
+  f = 8;
+  for (e = 24;16 > f;f += 2, e -= 8) {
+    d |= parseInt(a.substring(f, f + 2), 16) << e;
+  }
+  b = goog.math.Long.fromBits(d, c);
+  c = 0;
+  f = 16;
+  for (e = 24;24 > f;f += 2, e -= 8) {
+    c |= parseInt(a.substring(f, f + 2), 16) << e;
+  }
+  d = 0;
+  for (e = f = 24;32 > f;f += 2, e -= 8) {
+    d |= parseInt(a.substring(f, f + 2), 16) << e;
+  }
+  c = goog.math.Long.fromBits(d, c);
+  return new com.cognitect.transit.types.UUID(b, c);
+};
+com.cognitect.transit.types.uuid = function(a) {
+  return com.cognitect.transit.types.UUIDfromString(a);
+};
+com.cognitect.transit.types.isUUID = function(a) {
+  return a instanceof com.cognitect.transit.types.UUID;
+};
+com.cognitect.transit.types.date = function(a) {
+  a = "number" === typeof a ? a : parseInt(a, 10);
+  return new Date(a);
+};
+com.cognitect.transit.types.verboseDate = function(a) {
+  return new Date(a);
+};
+Date.prototype.com$cognitect$transit$equals = function(a) {
+  return a instanceof Date ? this.valueOf() === a.valueOf() : !1;
+};
+Date.prototype.com$cognitect$transit$hashCode = function() {
+  return this.valueOf();
+};
+com.cognitect.transit.types.binary = function(a) {
+  return com.cognitect.transit.types.taggedValue("b", a);
+};
+com.cognitect.transit.types.isBinary = function(a) {
+  return a instanceof com.cognitect.transit.types.TaggedValue && "b" === a.tag;
+};
+com.cognitect.transit.types.uri = function(a) {
+  return com.cognitect.transit.types.taggedValue("r", a);
+};
+com.cognitect.transit.types.isURI = function(a) {
+  return a instanceof com.cognitect.transit.types.TaggedValue && "r" === a.tag;
+};
+com.cognitect.transit.types.KEYS = 0;
+com.cognitect.transit.types.VALUES = 1;
+com.cognitect.transit.types.ENTRIES = 2;
+com.cognitect.transit.types.TransitArrayMapIterator = function(a, b) {
+  this.entries = a;
+  this.type = b || com.cognitect.transit.types.KEYS;
+  this.idx = 0;
+};
+com.cognitect.transit.types.TransitArrayMapIterator.prototype.next = function(a, b) {
+  if (this.idx < this.entries.length) {
+    var c = null, c = this.type === com.cognitect.transit.types.KEYS ? this.entries[this.idx] : this.type === com.cognitect.transit.types.VALUES ? this.entries[this.idx + 1] : [this.entries[this.idx], this.entries[this.idx + 1]], c = {value:c, done:!1};
+    this.idx += 2;
+    return c;
+  }
+  return{value:null, done:!0};
+};
+com.cognitect.transit.types.TransitArrayMapIterator.prototype.next = com.cognitect.transit.types.TransitArrayMapIterator.prototype.next;
+com.cognitect.transit.types.TransitMapIterator = function(a, b) {
+  this.map = a;
+  this.type = b || com.cognitect.transit.types.KEYS;
+  this.keys = this.map.getKeys();
+  this.idx = 0;
+  this.bucket = null;
+  this.bucketIdx = 0;
+};
+com.cognitect.transit.types.TransitMapIterator.prototype.next = function() {
+  if (this.idx < this.map.size) {
+    null != this.bucket && this.bucketIdx < this.bucket.length || (this.bucket = this.map.map[this.keys[this.idx]], this.bucketIdx = 0);
+    var a = null, a = this.type === com.cognitect.transit.types.KEYS ? this.bucket[this.bucketIdx] : this.type === com.cognitect.transit.types.VALUES ? this.bucket[this.bucketIdx + 1] : [this.bucket[this.bucketIdx], this.bucket[this.bucketIdx + 1]], a = {value:a, done:!1};
+    this.idx++;
+    this.bucketIdx += 2;
+    return a;
+  }
+  return{value:null, done:!0};
+};
+com.cognitect.transit.types.TransitMapIterator.prototype.next = com.cognitect.transit.types.TransitMapIterator.prototype.next;
+com.cognitect.transit.types.mapEquals = function(a, b) {
+  if ((b instanceof com.cognitect.transit.types.TransitMap || b instanceof com.cognitect.transit.types.TransitArrayMap) && a.size === b.size) {
+    for (var c in a.map) {
+      for (var d = a.map[c], e = 0;e < d.length;e += 2) {
+        if (!com.cognitect.transit.eq.equals(d[e + 1], b.get(d[e]))) {
+          return!1;
+        }
+      }
+    }
+    return!0;
+  }
+  if (null != b && "object" === typeof b && (c = com.cognitect.transit.util.objectKeys(b).length - (b.hasOwnProperty(com.cognitect.transit.eq.transitHashCodeProperty) && 1 || 0), a.size === c)) {
+    for (d in b) {
+      if (d !== com.cognitect.transit.eq.transitHashCodeProperty && !com.cognitect.transit.eq.equals(b[d], a.get(d))) {
+        return!1;
+      }
+    }
+    return!0;
+  }
+  return!1;
+};
+com.cognitect.transit.types.SMALL_ARRAY_MAP_THRESHOLD = 8;
+com.cognitect.transit.types.ARRAY_MAP_THRESHOLD = 32;
+com.cognitect.transit.types.ARRAY_MAP_ACCESS_THRESHOLD = 32;
+com.cognitect.transit.types.TransitArrayMap = function(a) {
+  this._entries = a;
+  this.backingMap = null;
+  this.hashCode = -1;
+  this.size = a.length / 2;
+  this.accesses = 0;
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.toString = function() {
+  return "[TransitArrayMap]";
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.convert = function() {
+  if (this.backingMap) {
+    throw Error("Invalid operation, already converted");
+  }
+  if (this.size < com.cognitect.transit.types.SMALL_ARRAY_MAP_THRESHOLD) {
+    return!1;
+  }
+  this.accesses++;
+  return this.accesses > com.cognitect.transit.types.ARRAY_MAP_ACCESS_THRESHOLD ? (this.backingMap = com.cognitect.transit.types.map(this._entries, !1, !0), this._entries = [], !0) : !1;
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.clear = function() {
+  this.backingMap ? this.backingMap.clear() : this._entries = [];
+  this.size = 0;
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.clear = com.cognitect.transit.types.TransitArrayMap.prototype.clear;
+com.cognitect.transit.types.TransitArrayMap.prototype.keys = function() {
+  return this.backingMap ? this.backingMap.keys() : new com.cognitect.transit.types.TransitArrayMapIterator(this._entries, com.cognitect.transit.types.KEYS);
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.keys = com.cognitect.transit.types.TransitArrayMap.prototype.keys;
+com.cognitect.transit.types.TransitArrayMap.prototype.keySet = function() {
+  if (this.backingMap) {
+    return this.backingMap.keySet();
+  }
+  for (var a = [], b = 0, c = 0;c < this._entries.length;b++, c += 2) {
+    a[b] = this._entries[c];
+  }
+  return a;
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.keySet = com.cognitect.transit.types.TransitArrayMap.prototype.keySet;
+com.cognitect.transit.types.TransitArrayMap.prototype.entries = function() {
+  return this.backingMap ? this.backingMap.entries() : new com.cognitect.transit.types.TransitArrayMapIterator(this._entries, com.cognitect.transit.types.ENTRIES);
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.entries = com.cognitect.transit.types.TransitArrayMap.prototype.entries;
+com.cognitect.transit.types.TransitArrayMap.prototype.values = function() {
+  return this.backingMap ? this.backingMap.values() : new com.cognitect.transit.types.TransitArrayMapIterator(this._entries, com.cognitect.transit.types.VALUES);
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.values = com.cognitect.transit.types.TransitArrayMap.prototype.values;
+com.cognitect.transit.types.TransitArrayMap.prototype.forEach = function(a) {
+  if (this.backingMap) {
+    this.backingMap.forEach(a);
+  } else {
+    for (var b = 0;b < this._entries.length;b += 2) {
+      a(this._entries[b + 1], this._entries[b]);
+    }
+  }
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.forEach = com.cognitect.transit.types.TransitArrayMap.prototype.forEach;
+com.cognitect.transit.types.TransitArrayMap.prototype.get = function(a) {
+  if (this.backingMap) {
+    return this.backingMap.get(a);
+  }
+  if (this.convert()) {
+    return this.get(a);
+  }
+  for (var b = 0;b < this._entries.length;b += 2) {
+    if (com.cognitect.transit.eq.equals(this._entries[b], a)) {
+      return this._entries[b + 1];
+    }
+  }
+  return null;
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.get = com.cognitect.transit.types.TransitArrayMap.prototype.get;
+com.cognitect.transit.types.TransitArrayMap.prototype.has = function(a) {
+  if (this.backingMap) {
+    return this.backingMap.has(a);
+  }
+  if (this.convert()) {
+    return this.has(a);
+  }
+  for (var b = 0;b < this._entries.length;b += 2) {
+    if (com.cognitect.transit.eq.equals(this._entries[b], a)) {
+      return!0;
+    }
+  }
+  return!1;
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.has = com.cognitect.transit.types.TransitArrayMap.prototype.has;
+com.cognitect.transit.types.TransitArrayMap.prototype.set = function(a, b) {
+  if (this.backingMap) {
+    this.backingMap.set(a, b), this.size = this.backingMap.size;
+  } else {
+    for (var c = 0;c < this._entries.length;c += 2) {
+      if (com.cognitect.transit.eq.equals(this._entries[c], a)) {
+        this._entries[c + 1] = b;
+        return;
+      }
+    }
+    this._entries.push(a);
+    this._entries.push(b);
+    this.size++;
+    this.size > com.cognitect.transit.types.ARRAY_MAP_THRESHOLD && (this.backingMap = com.cognitect.transit.types.map(this._entries, !1, !0), this._entries = null);
+  }
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.set = com.cognitect.transit.types.TransitArrayMap.prototype.set;
+com.cognitect.transit.types.TransitArrayMap.prototype["delete"] = function(a) {
+  if (this.backingMap) {
+    this.backingMap["delete"](a), this.size = this.backingMap.size;
+  } else {
+    for (var b = 0;b < this._entries.length;b += 2) {
+      if (com.cognitect.transit.eq.equals(this._entries[b], a)) {
+        this._entries.splice(b, 2);
+        this.size--;
+        break;
+      }
+    }
+  }
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.com$cognitect$transit$hashCode = function() {
+  if (this.backingMap) {
+    return this.backingMap.com$cognitect$transit$hashCode();
+  }
+  -1 === this.hashCode && (this.hashCode = com.cognitect.transit.eq.hashMapLike(this));
+  return this.hashCode;
+};
+com.cognitect.transit.types.TransitArrayMap.prototype.com$cognitect$transit$equals = function(a) {
+  return this.backingMap ? com.cognitect.transit.types.mapEquals(this.backingMap, a) : com.cognitect.transit.types.mapEquals(this, a);
+};
+com.cognitect.transit.types.TransitMap = function(a, b, c) {
+  this.map = b || {};
+  this._keys = a || [];
+  this.size = c || 0;
+  this.hashCode = -1;
+};
+com.cognitect.transit.types.TransitMap.prototype.toString = function() {
+  return "[TransitMap]";
+};
+com.cognitect.transit.types.TransitMap.prototype.clear = function() {
+  this.map = {};
+  this._keys = [];
+  this.size = 0;
+  this.hashCode = -1;
+};
+com.cognitect.transit.types.TransitMap.prototype.clear = com.cognitect.transit.types.TransitMap.prototype.clear;
+com.cognitect.transit.types.TransitMap.prototype.getKeys = function() {
+  return null != this._keys ? this._keys : com.cognitect.transit.util.objectKeys(this.map);
+};
+com.cognitect.transit.types.TransitMap.prototype["delete"] = function(a) {
+  this._keys = null;
+  for (var b = com.cognitect.transit.eq.hashCode(a), c = this.map[b], d = 0;d < c.length;d += 2) {
+    if (com.cognitect.transit.eq.equals(a, c[d])) {
+      c.splice(d, 2);
+      0 === c.length && delete this.map[b];
+      this.size--;
+      break;
+    }
+  }
+};
+com.cognitect.transit.types.TransitMap.prototype.entries = function() {
+  return new com.cognitect.transit.types.TransitMapIterator(this, com.cognitect.transit.types.ENTRIES);
+};
+com.cognitect.transit.types.TransitMap.prototype.entries = com.cognitect.transit.types.TransitMap.prototype.entries;
+com.cognitect.transit.types.TransitMap.prototype.forEach = function(a) {
+  for (var b = this.getKeys(), c = 0;c < b.length;c++) {
+    for (var d = this.map[b[c]], e = 0;e < d.length;e += 2) {
+      a(d[e + 1], d[e], this);
+    }
+  }
+};
+com.cognitect.transit.types.TransitMap.prototype.forEach = com.cognitect.transit.types.TransitMap.prototype.forEach;
+com.cognitect.transit.types.TransitMap.prototype.get = function(a) {
+  var b = com.cognitect.transit.eq.hashCode(a), b = this.map[b];
+  if (null != b) {
+    for (var c = 0;c < b.length;c += 2) {
+      if (com.cognitect.transit.eq.equals(a, b[c])) {
+        return b[c + 1];
+      }
+    }
+  } else {
+    return null;
+  }
+};
+com.cognitect.transit.types.TransitMap.prototype.get = com.cognitect.transit.types.TransitMap.prototype.get;
+com.cognitect.transit.types.TransitMap.prototype.has = function(a) {
+  var b = com.cognitect.transit.eq.hashCode(a), b = this.map[b];
+  if (null != b) {
+    for (var c = 0;c < b.length;c += 2) {
+      if (com.cognitect.transit.eq.equals(a, b[c])) {
+        return!0;
+      }
+    }
+  }
+  return!1;
+};
+com.cognitect.transit.types.TransitMap.prototype.has = com.cognitect.transit.types.TransitMap.prototype.has;
+com.cognitect.transit.types.TransitMap.prototype.keys = function() {
+  return new com.cognitect.transit.types.TransitMapIterator(this, com.cognitect.transit.types.KEYS);
+};
+com.cognitect.transit.types.TransitMap.prototype.keys = com.cognitect.transit.types.TransitMap.prototype.keys;
+com.cognitect.transit.types.TransitMap.prototype.keySet = function() {
+  for (var a = this.getKeys(), b = [], c = 0;c < a.length;c++) {
+    for (var d = this.map[a[c]], e = 0;e < d.length;e += 2) {
+      b.push(d[e]);
+    }
+  }
+  return b;
+};
+com.cognitect.transit.types.TransitMap.prototype.keySet = com.cognitect.transit.types.TransitMap.prototype.keySet;
+com.cognitect.transit.types.TransitMap.prototype.set = function(a, b) {
+  var c = com.cognitect.transit.eq.hashCode(a), d = this.map[c];
+  if (null == d) {
+    this._keys && this._keys.push(c), this.map[c] = [a, b], this.size++;
+  } else {
+    for (var c = !0, e = 0;e < d.length;e += 2) {
+      if (com.cognitect.transit.eq.equals(b, d[e])) {
+        c = !1;
+        d[e] = b;
+        break;
+      }
+    }
+    c && (d.push(a), d.push(b), this.size++);
+  }
+};
+com.cognitect.transit.types.TransitMap.prototype.set = com.cognitect.transit.types.TransitMap.prototype.set;
+com.cognitect.transit.types.TransitMap.prototype.values = function() {
+  return new com.cognitect.transit.types.TransitMapIterator(this, com.cognitect.transit.types.VALUES);
+};
+com.cognitect.transit.types.TransitMap.prototype.values = com.cognitect.transit.types.TransitMap.prototype.values;
+com.cognitect.transit.types.TransitMap.prototype.com$cognitect$transit$hashCode = function() {
+  -1 === this.hashCode && (this.hashCode = com.cognitect.transit.eq.hashMapLike(this));
+  return this.hashCode;
+};
+com.cognitect.transit.types.TransitMap.prototype.com$cognitect$transit$equals = function(a) {
+  return com.cognitect.transit.types.mapEquals(this, a);
+};
+com.cognitect.transit.types.map = function(a, b, c) {
+  a = a || [];
+  b = !1 === b ? b : !0;
+  if ((!0 !== c || !c) && a.length <= 2 * com.cognitect.transit.types.ARRAY_MAP_THRESHOLD) {
+    if (b) {
+      var d = a;
+      a = [];
+      for (b = 0;b < d.length;b += 2) {
+        var e = !1;
+        for (c = 0;c < a.length;c += 2) {
+          if (com.cognitect.transit.eq.equals(a[c], d[b])) {
+            a[c + 1] = d[b + 1];
+            e = !0;
+            break;
+          }
+        }
+        e || (a.push(d[b]), a.push(d[b + 1]));
+      }
+    }
+    return new com.cognitect.transit.types.TransitArrayMap(a);
+  }
+  var d = {}, e = [], f = 0;
+  for (b = 0;b < a.length;b += 2) {
+    c = com.cognitect.transit.eq.hashCode(a[b]);
+    var g = d[c];
+    if (null == g) {
+      e.push(c), d[c] = [a[b], a[b + 1]], f++;
+    } else {
+      var h = !0;
+      for (c = 0;c < g.length;c += 2) {
+        if (com.cognitect.transit.eq.equals(g[c], a[b])) {
+          g[c + 1] = a[b + 1];
+          h = !1;
+          break;
+        }
+      }
+      h && (g.push(a[b]), g.push(a[b + 1]), f++);
+    }
+  }
+  return new com.cognitect.transit.types.TransitMap(e, d, f);
+};
+com.cognitect.transit.types.isArrayMap = function(a) {
+  return a instanceof com.cognitect.transit.types.TransitArrayMap;
+};
+com.cognitect.transit.types.isMap = function(a) {
+  return a instanceof com.cognitect.transit.types.TransitArrayMap || a instanceof com.cognitect.transit.types.TransitMap;
+};
+com.cognitect.transit.types.TransitSet = function(a) {
+  this.map = a;
+  this.size = a.size;
+};
+com.cognitect.transit.types.TransitSet.prototype.toString = function() {
+  return "[TransitSet]";
+};
+com.cognitect.transit.types.TransitSet.prototype.add = function(a) {
+  this.map.set(a, a);
+  this.size = this.map.size;
+};
+com.cognitect.transit.types.TransitSet.prototype.add = com.cognitect.transit.types.TransitSet.prototype.add;
+com.cognitect.transit.types.TransitSet.prototype.clear = function() {
+  this.map = new com.cognitect.transit.types.TransitMap;
+  this.size = 0;
+};
+com.cognitect.transit.types.TransitSet.prototype.clear = com.cognitect.transit.types.TransitSet.prototype.clear;
+com.cognitect.transit.types.TransitSet.prototype["delete"] = function(a) {
+  this.map["delete"](a);
+  this.size = this.map.size;
+};
+com.cognitect.transit.types.TransitSet.prototype.entries = function() {
+  return this.map.entries();
+};
+com.cognitect.transit.types.TransitSet.prototype.entries = com.cognitect.transit.types.TransitSet.prototype.entries;
+com.cognitect.transit.types.TransitSet.prototype.forEach = function(a, b) {
+  var c = this;
+  this.map.forEach(function(b, e, f) {
+    a(e, c);
+  });
+};
+com.cognitect.transit.types.TransitSet.prototype.forEach = com.cognitect.transit.types.TransitSet.prototype.forEach;
+com.cognitect.transit.types.TransitSet.prototype.has = function(a) {
+  return this.map.has(a);
+};
+com.cognitect.transit.types.TransitSet.prototype.has = com.cognitect.transit.types.TransitSet.prototype.has;
+com.cognitect.transit.types.TransitSet.prototype.keys = function() {
+  return this.map.keys();
+};
+com.cognitect.transit.types.TransitSet.prototype.keys = com.cognitect.transit.types.TransitSet.prototype.keys;
+com.cognitect.transit.types.TransitSet.prototype.keySet = function() {
+  return this.map.keySet();
+};
+com.cognitect.transit.types.TransitSet.prototype.keySet = com.cognitect.transit.types.TransitSet.prototype.keySet;
+com.cognitect.transit.types.TransitSet.prototype.values = function() {
+  return this.map.values();
+};
+com.cognitect.transit.types.TransitSet.prototype.values = com.cognitect.transit.types.TransitSet.prototype.values;
+com.cognitect.transit.types.TransitSet.prototype.com$cognitect$transit$equals = function(a) {
+  if (a instanceof com.cognitect.transit.types.TransitSet) {
+    if (this.size === a.size) {
+      return com.cognitect.transit.eq.equals(this.map, a.map);
+    }
+  } else {
+    return!1;
+  }
+};
+com.cognitect.transit.types.TransitSet.prototype.com$cognitect$transit$hashCode = function(a) {
+  return com.cognitect.transit.eq.hashCode(this.map);
+};
+com.cognitect.transit.types.set = function(a) {
+  a = a || [];
+  for (var b = {}, c = [], d = 0, e = 0;e < a.length;e++) {
+    var f = com.cognitect.transit.eq.hashCode(a[e]), g = b[f];
+    if (null == g) {
+      c.push(f), b[f] = [a[e], a[e]], d++;
+    } else {
+      for (var f = !0, h = 0;h < g.length;h += 2) {
+        if (com.cognitect.transit.eq.equals(g[h], a[e])) {
+          f = !1;
+          break;
+        }
+      }
+      f && (g.push(a[e]), g.push(a[e]), d++);
+    }
+  }
+  return new com.cognitect.transit.types.TransitSet(new com.cognitect.transit.types.TransitMap(c, b, d));
+};
+com.cognitect.transit.types.isSet = function(a) {
+  return a instanceof com.cognitect.transit.types.TransitSet;
+};
+com.cognitect.transit.types.quoted = function(a) {
+  return com.cognitect.transit.types.taggedValue("'", a);
+};
+com.cognitect.transit.types.isQuoted = function(a) {
+  return a instanceof com.cognitect.transit.types.TaggedValue && "'" === a.tag;
+};
+com.cognitect.transit.types.list = function(a) {
+  return com.cognitect.transit.types.taggedValue("list", a);
+};
+com.cognitect.transit.types.isList = function(a) {
+  return a instanceof com.cognitect.transit.types.List && "list" === a.tag;
+};
+com.cognitect.transit.types.link = function(a) {
+  return com.cognitect.transit.types.taggedValue("link", a);
+};
+com.cognitect.transit.types.isLink = function(a) {
+  return a instanceof com.cognitect.transit.types.TaggedValue && "link" === a.tag;
+};
+com.cognitect.transit.caching = {};
+com.cognitect.transit.caching.MIN_SIZE_CACHEABLE = 3;
+com.cognitect.transit.caching.BASE_CHAR_IDX = 48;
+com.cognitect.transit.caching.CACHE_CODE_DIGITS = 44;
+com.cognitect.transit.caching.MAX_CACHE_ENTRIES = com.cognitect.transit.caching.CACHE_CODE_DIGITS * com.cognitect.transit.caching.CACHE_CODE_DIGITS;
+com.cognitect.transit.caching.MAX_CACHE_SIZE = 4096;
+com.cognitect.transit.caching.isCacheable = function(a, b) {
+  if (a.length > com.cognitect.transit.caching.MIN_SIZE_CACHEABLE) {
+    if (b) {
+      return!0;
+    }
+    var c = a.charAt(0), d = a.charAt(1);
+    return c === com.cognitect.transit.delimiters.ESC ? ":" === d || "$" === d || "#" === d : !1;
+  }
+  return!1;
+};
+com.cognitect.transit.caching.idxToCode = function(a) {
+  var b = Math.floor(a / com.cognitect.transit.caching.CACHE_CODE_DIGITS);
+  a = String.fromCharCode(a % com.cognitect.transit.caching.CACHE_CODE_DIGITS + com.cognitect.transit.caching.BASE_CHAR_IDX);
+  return 0 === b ? com.cognitect.transit.delimiters.SUB + a : com.cognitect.transit.delimiters.SUB + String.fromCharCode(b + com.cognitect.transit.caching.BASE_CHAR_IDX) + a;
+};
+com.cognitect.transit.caching.WriteCache = function() {
+  this.cacheSize = this.gen = this.idx = 0;
+  this.cache = {};
+};
+com.cognitect.transit.caching.WriteCache.prototype.write = function(a, b) {
+  if (com.cognitect.transit.caching.isCacheable(a, b)) {
+    this.cacheSize === com.cognitect.transit.caching.MAX_CACHE_SIZE ? (this.clear(), this.gen = 0, this.cache = {}) : this.idx === com.cognitect.transit.caching.MAX_CACHE_ENTRIES && this.clear();
+    var c = this.cache[a];
+    return null == c ? (this.cache[a] = [com.cognitect.transit.caching.idxToCode(this.idx), this.gen], this.idx++, a) : c[1] != this.gen ? (c[1] = this.gen, c[0] = com.cognitect.transit.caching.idxToCode(this.idx), this.idx++, a) : c[0];
+  }
+  return a;
+};
+com.cognitect.transit.caching.WriteCache.prototype.clear = function() {
+  this.idx = 0;
+  this.gen++;
+};
+com.cognitect.transit.caching.isCacheCode = function(a) {
+  return a.charAt(0) === com.cognitect.transit.delimiters.SUB;
+};
+com.cognitect.transit.caching.codeToIdx = function(a) {
+  if (2 === a.length) {
+    return a.charCodeAt(1) - com.cognitect.transit.caching.BASE_CHAR_IDX;
+  }
+  var b = (a.charCodeAt(1) - com.cognitect.transit.caching.BASE_CHAR_IDX) * com.cognitect.transit.caching.CACHE_CODE_DIGITS;
+  a = a.charCodeAt(2) - com.cognitect.transit.caching.BASE_CHAR_IDX;
+  return b + a;
+};
+com.cognitect.transit.caching.ReadCache = function() {
+  this.idx = 0;
+  this.cache = [];
+};
+com.cognitect.transit.caching.ReadCache.prototype.write = function(a, b) {
+  this.idx == com.cognitect.transit.caching.MAX_CACHE_ENTRIES && (this.idx = 0);
+  this.cache[this.idx] = a;
+  this.idx++;
+  return a;
+};
+com.cognitect.transit.caching.ReadCache.prototype.read = function(a, b) {
+  return this.cache[com.cognitect.transit.caching.codeToIdx(a)];
+};
+com.cognitect.transit.caching.ReadCache.prototype.clear = function() {
+  this.idx = 0;
+};
+com.cognitect.transit.impl = {};
+com.cognitect.transit.impl.decoder = {};
+com.cognitect.transit.impl.decoder.Tag = function(a) {
+  this.str = a;
+};
+com.cognitect.transit.impl.decoder.tag = function(a) {
+  return new com.cognitect.transit.impl.decoder.Tag(a);
+};
+com.cognitect.transit.impl.decoder.isTag = function(a) {
+  return a && a instanceof com.cognitect.transit.impl.decoder.Tag;
+};
+com.cognitect.transit.impl.decoder.isGroundHandler = function(a) {
+  switch(a) {
+    case "_":
+    ;
+    case "s":
+    ;
+    case "?":
+    ;
+    case "i":
+    ;
+    case "d":
+    ;
+    case "b":
+    ;
+    case "'":
+    ;
+    case "array":
+    ;
+    case "map":
+      return!0;
+  }
+  return!1;
+};
+com.cognitect.transit.impl.decoder.Decoder = function(a) {
+  this.options = a || {};
+  this.handlers = {};
+  for (var b in this.defaults.handlers) {
+    this.handlers[b] = this.defaults.handlers[b];
+  }
+  for (b in this.options.handlers) {
+    if (com.cognitect.transit.impl.decoder.isGroundHandler(b)) {
+      throw Error('Cannot override handler for ground type "' + b + '"');
+    }
+    this.handlers[b] = this.options.handlers[b];
+  }
+  this.preferStrings = null != this.options.preferStrings ? this.options.preferStrings : this.defaults.preferStrings;
+  this.defaultHandler = this.options.defaultHandler || this.defaults.defaultHandler;
+  this.mapBuilder = this.options.mapBuilder;
+  this.arrayBuilder = this.options.arrayBuilder;
+};
+com.cognitect.transit.impl.decoder.Decoder.prototype.defaults = {handlers:{_:function(a) {
+  return com.cognitect.transit.types.nullValue();
+}, "?":function(a) {
+  return com.cognitect.transit.types.boolValue(a);
+}, b:function(a) {
+  return com.cognitect.transit.types.binary(a);
+}, i:function(a) {
+  return com.cognitect.transit.types.intValue(a);
+}, n:function(a) {
+  return com.cognitect.transit.types.bigInteger(a);
+}, d:function(a) {
+  return com.cognitect.transit.types.floatValue(a);
+}, f:function(a) {
+  return com.cognitect.transit.types.bigDecimalValue(a);
+}, c:function(a) {
+  return com.cognitect.transit.types.charValue(a);
+}, ":":function(a) {
+  return com.cognitect.transit.types.keyword(a);
+}, $:function(a) {
+  return com.cognitect.transit.types.symbol(a);
+}, r:function(a) {
+  return com.cognitect.transit.types.uri(a);
+}, "'":function(a) {
+  return a;
+}, m:function(a) {
+  return com.cognitect.transit.types.date(a);
+}, t:function(a) {
+  return com.cognitect.transit.types.verboseDate(a);
+}, u:function(a) {
+  return com.cognitect.transit.types.uuid(a);
+}, set:function(a) {
+  return com.cognitect.transit.types.set(a);
+}, list:function(a) {
+  return com.cognitect.transit.types.list(a);
+}, link:function(a) {
+  return com.cognitect.transit.types.link(a);
+}, cmap:function(a) {
+  return com.cognitect.transit.types.map(a, !1);
+}}, defaultHandler:function(a, b) {
+  return com.cognitect.transit.types.taggedValue(a, b);
+}, preferStrings:!0};
+com.cognitect.transit.impl.decoder.Decoder.prototype.decode = function(a, b, c, d) {
+  if (null == a) {
+    return null;
+  }
+  switch(typeof a) {
+    case "string":
+      return this.decodeString(a, b, c, d);
+    case "object":
+      return com.cognitect.transit.util.isArray(a) ? "^ " === a[0] ? this.decodeArrayHash(a, b, c, d) : this.decodeArray(a, b, !1, d) : this.decodeHash(a, b, c, d);
+  }
+  return a;
+};
+com.cognitect.transit.impl.decoder.Decoder.prototype.decode = com.cognitect.transit.impl.decoder.Decoder.prototype.decode;
+com.cognitect.transit.impl.decoder.Decoder.prototype.decodeString = function(a, b, c, d) {
+  return com.cognitect.transit.caching.isCacheable(a, c) ? (a = this.parseString(a, b, !1), b && b.write(a, c), a) : com.cognitect.transit.caching.isCacheCode(a) ? b.read(a, c) : this.parseString(a, b, c);
+};
+com.cognitect.transit.impl.decoder.Decoder.prototype.decodeHash = function(a, b, c, d) {
+  c = com.cognitect.transit.util.objectKeys(a);
+  var e = c[0];
+  d = 1 == c.length ? this.decode(e, b, !1, !1) : null;
+  if (com.cognitect.transit.impl.decoder.isTag(d)) {
+    return a = a[e], c = this.handlers[d.str], null != c ? c(this.decode(a, b, !1, !0)) : com.cognitect.transit.types.taggedValue(d.str, this.decode(a, b, !1, !1));
+  }
+  if (this.mapBuilder) {
+    if (c.length < 2 * com.cognitect.transit.types.SMALL_ARRAY_MAP_THRESHOLD && this.mapBuilder.fromArray) {
+      var f = [];
+      for (d = 0;d < c.length;d++) {
+        e = c[d], f.push(this.decode(e, b, !0, !1)), f.push(this.decode(a[e], b, !1, !1));
+      }
+      return this.mapBuilder.fromArray(f, a);
+    }
+    f = this.mapBuilder.init(a);
+    for (d = 0;d < c.length;d++) {
+      e = c[d], f = this.mapBuilder.add(f, this.decode(e, b, !0, !1), this.decode(a[e], b, !1, !1), a);
+    }
+    return this.mapBuilder.finalize(f, a);
+  }
+  f = [];
+  for (d = 0;d < c.length;d++) {
+    e = c[d], f.push(this.decode(e, b, !0, !1)), f.push(this.decode(a[e], b, !1, !1));
+  }
+  return com.cognitect.transit.types.map(f, !1);
+};
+com.cognitect.transit.impl.decoder.Decoder.prototype.decodeArrayHash = function(a, b, c, d) {
+  if (this.mapBuilder) {
+    if (a.length < 2 * com.cognitect.transit.types.SMALL_ARRAY_MAP_THRESHOLD + 1 && this.mapBuilder.fromArray) {
+      d = [];
+      for (c = 1;c < a.length;c += 2) {
+        d.push(this.decode(a[c], b, !0, !1)), d.push(this.decode(a[c + 1], b, !1, !1));
+      }
+      return this.mapBuilder.fromArray(d, a);
+    }
+    d = this.mapBuilder.init(a);
+    for (c = 1;c < a.length;c += 2) {
+      d = this.mapBuilder.add(d, this.decode(a[c], b, !0, !1), this.decode(a[c + 1], b, !1, !1), a);
+    }
+    return this.mapBuilder.finalize(d, a);
+  }
+  d = [];
+  for (c = 1;c < a.length;c += 2) {
+    d.push(this.decode(a[c], b, !0, !1)), d.push(this.decode(a[c + 1], b, !1, !1));
+  }
+  return com.cognitect.transit.types.map(d, !1);
+};
+com.cognitect.transit.impl.decoder.Decoder.prototype.decodeArray = function(a, b, c, d) {
+  if (d) {
+    var e = [];
+    for (d = 0;d < a.length;d++) {
+      e.push(this.decode(a[d], b, c, !1));
+    }
+    return e;
+  }
+  if (2 === a.length && "string" === typeof a[0] && (d = this.decode(a[0], b, !1, !1), com.cognitect.transit.impl.decoder.isTag(d))) {
+    return a = a[1], c = this.handlers[d.str], null != c ? e = c(this.decode(a, b, !1, !0)) : com.cognitect.transit.types.taggedValue(d.str, this.decode(a, b, !1, !1));
+  }
+  if (this.arrayBuilder) {
+    if (32 >= a.length && this.arrayBuilder.fromArray) {
+      e = [];
+      for (d = 0;d < a.length;d++) {
+        e.push(this.decode(a[d], b, c, !1));
+      }
+      return this.arrayBuilder.fromArray(e, a);
+    }
+    e = this.arrayBuilder.init();
+    for (d = 0;d < a.length;d++) {
+      e = this.arrayBuilder.add(e, this.decode(a[d], b, c, !1), a);
+    }
+    return this.arrayBuilder.finalize(e, a);
+  }
+  e = [];
+  for (d = 0;d < a.length;d++) {
+    e.push(this.decode(a[d], b, c, !1));
+  }
+  return e;
+};
+com.cognitect.transit.impl.decoder.Decoder.prototype.parseString = function(a, b, c) {
+  if (a.charAt(0) === com.cognitect.transit.delimiters.ESC) {
+    b = a.charAt(1);
+    if (b === com.cognitect.transit.delimiters.ESC || b === com.cognitect.transit.delimiters.SUB || b === com.cognitect.transit.delimiters.RES) {
+      return a.substring(1);
+    }
+    if (b === com.cognitect.transit.delimiters.TAG) {
+      return com.cognitect.transit.impl.decoder.tag(a.substring(2));
+    }
+    c = this.handlers[b];
+    return null == c ? this.defaultHandler(b, a.substring(2)) : c(a.substring(2));
+  }
+  return a;
+};
+com.cognitect.transit.impl.decoder.decoder = function(a) {
+  return new com.cognitect.transit.impl.decoder.Decoder(a);
+};
+com.cognitect.transit.impl.reader = {};
+com.cognitect.transit.impl.reader.JSONUnmarshaller = function(a) {
+  this.decoder = new com.cognitect.transit.impl.decoder.Decoder(a);
+};
+com.cognitect.transit.impl.reader.JSONUnmarshaller.prototype.unmarshal = function(a, b) {
+  return this.decoder.decode(JSON.parse(a), b);
+};
+com.cognitect.transit.impl.reader.Reader = function(a, b) {
+  this.unmarshaller = a;
+  this.options = b || {};
+  this.cache = this.options.cache ? this.options.cache : new com.cognitect.transit.caching.ReadCache;
+};
+com.cognitect.transit.impl.reader.Reader.prototype.read = function(a) {
+  a = this.unmarshaller.unmarshal(a, this.cache);
+  this.cache.clear();
+  return a;
+};
+com.cognitect.transit.impl.reader.Reader.prototype.read = com.cognitect.transit.impl.reader.Reader.prototype.read;
+com.cognitect.transit.handlers = {};
+com.cognitect.transit.handlers.ctorGuid = 0;
+com.cognitect.transit.handlers.ctorGuidProperty = "transit$guid$" + com.cognitect.transit.util.randomUUID();
+com.cognitect.transit.handlers.typeTag = function(a) {
+  if (null == a) {
+    return "null";
+  }
+  if (a === String) {
+    return "string";
+  }
+  if (a === Boolean) {
+    return "boolean";
+  }
+  if (a === Number) {
+    return "number";
+  }
+  if (a === Array) {
+    return "array";
+  }
+  if (a === Object) {
+    return "map";
+  }
+  var b = a[com.cognitect.transit.handlers.ctorGuidProperty];
+  null == b && ("undefined" != typeof Object.defineProperty ? (b = ++com.cognitect.transit.handlers.ctorGuid, Object.defineProperty(a, com.cognitect.transit.handlers.ctorGuidProperty, {value:b, enumerable:!1})) : a[com.cognitect.transit.handlers.ctorGuidProperty] = b = ++com.cognitect.transit.handlers.ctorGuid);
+  return b;
+};
+com.cognitect.transit.handlers.constructor = function(a) {
+  return null == a ? null : a.constructor;
+};
+com.cognitect.transit.handlers.padZeros = function(a, b) {
+  for (var c = a.toString(), d = c.length;d < b;d++) {
+    c = "0" + c;
+  }
+  return c;
+};
+com.cognitect.transit.handlers.stringableKeys = function(a) {
+  a = com.cognitect.transit.util.objectKeys(a);
+  for (var b = 0;b < a.length;b++) {
+  }
+  return!0;
+};
+com.cognitect.transit.handlers.NilHandler = function() {
+};
+com.cognitect.transit.handlers.NilHandler.prototype.tag = function(a) {
+  return "_";
+};
+com.cognitect.transit.handlers.NilHandler.prototype.rep = function(a) {
+  return null;
+};
+com.cognitect.transit.handlers.NilHandler.prototype.stringRep = function(a) {
+  return "null";
+};
+com.cognitect.transit.handlers.StringHandler = function() {
+};
+com.cognitect.transit.handlers.StringHandler.prototype.tag = function(a) {
+  return "s";
+};
+com.cognitect.transit.handlers.StringHandler.prototype.rep = function(a) {
+  return a;
+};
+com.cognitect.transit.handlers.StringHandler.prototype.stringRep = function(a) {
+  return a;
+};
+com.cognitect.transit.handlers.NumberHandler = function() {
+};
+com.cognitect.transit.handlers.NumberHandler.prototype.tag = function(a) {
+  return "i";
+};
+com.cognitect.transit.handlers.NumberHandler.prototype.rep = function(a) {
+  return a;
+};
+com.cognitect.transit.handlers.NumberHandler.prototype.stringRep = function(a) {
+  return a.toString();
+};
+com.cognitect.transit.handlers.IntegerHandler = function() {
+};
+com.cognitect.transit.handlers.IntegerHandler.prototype.tag = function(a) {
+  return "i";
+};
+com.cognitect.transit.handlers.IntegerHandler.prototype.rep = function(a) {
+  return a.toString();
+};
+com.cognitect.transit.handlers.IntegerHandler.prototype.stringRep = function(a) {
+  return a.toString();
+};
+com.cognitect.transit.handlers.BooleanHandler = function() {
+};
+com.cognitect.transit.handlers.BooleanHandler.prototype.tag = function(a) {
+  return "?";
+};
+com.cognitect.transit.handlers.BooleanHandler.prototype.rep = function(a) {
+  return a;
+};
+com.cognitect.transit.handlers.BooleanHandler.prototype.stringRep = function(a) {
+  return a.toString();
+};
+com.cognitect.transit.handlers.ArrayHandler = function() {
+};
+com.cognitect.transit.handlers.ArrayHandler.prototype.tag = function(a) {
+  return "array";
+};
+com.cognitect.transit.handlers.ArrayHandler.prototype.rep = function(a) {
+  return a;
+};
+com.cognitect.transit.handlers.ArrayHandler.prototype.stringRep = function(a) {
+  return null;
+};
+com.cognitect.transit.handlers.MapHandler = function() {
+};
+com.cognitect.transit.handlers.MapHandler.prototype.tag = function(a) {
+  return "map";
+};
+com.cognitect.transit.handlers.MapHandler.prototype.rep = function(a) {
+  return a;
+};
+com.cognitect.transit.handlers.MapHandler.prototype.stringRep = function(a) {
+  return null;
+};
+com.cognitect.transit.handlers.VerboseDateHandler = function() {
+};
+com.cognitect.transit.handlers.VerboseDateHandler.prototype.tag = function(a) {
+  return "t";
+};
+com.cognitect.transit.handlers.VerboseDateHandler.prototype.rep = function(a) {
+  return a.getUTCFullYear() + "-" + com.cognitect.transit.handlers.padZeros(a.getUTCMonth() + 1, 2) + "-" + com.cognitect.transit.handlers.padZeros(a.getUTCDate(), 2) + "T" + com.cognitect.transit.handlers.padZeros(a.getUTCHours(), 2) + ":" + com.cognitect.transit.handlers.padZeros(a.getUTCMinutes(), 2) + ":" + com.cognitect.transit.handlers.padZeros(a.getUTCSeconds(), 2) + "." + com.cognitect.transit.handlers.padZeros(a.getUTCMilliseconds(), 3) + "Z";
+};
+com.cognitect.transit.handlers.VerboseDateHandler.prototype.stringRep = function(a, b) {
+  return b.rep(a);
+};
+com.cognitect.transit.handlers.DateHandler = function() {
+};
+com.cognitect.transit.handlers.DateHandler.prototype.tag = function(a) {
+  return "m";
+};
+com.cognitect.transit.handlers.DateHandler.prototype.rep = function(a) {
+  return a.valueOf();
+};
+com.cognitect.transit.handlers.DateHandler.prototype.stringRep = function(a) {
+  return a.valueOf().toString();
+};
+com.cognitect.transit.handlers.DateHandler.prototype.getVerboseHandler = function(a) {
+  return new com.cognitect.transit.handlers.VerboseDateHandler;
+};
+com.cognitect.transit.handlers.UUIDHandler = function() {
+};
+com.cognitect.transit.handlers.UUIDHandler.prototype.tag = function(a) {
+  return "u";
+};
+com.cognitect.transit.handlers.UUIDHandler.prototype.rep = function(a) {
+  return a.toString();
+};
+com.cognitect.transit.handlers.UUIDHandler.prototype.stringRep = function(a) {
+  return a.toString();
+};
+com.cognitect.transit.handlers.KeywordHandler = function() {
+};
+com.cognitect.transit.handlers.KeywordHandler.prototype.tag = function(a) {
+  return ":";
+};
+com.cognitect.transit.handlers.KeywordHandler.prototype.rep = function(a) {
+  return a.name;
+};
+com.cognitect.transit.handlers.KeywordHandler.prototype.stringRep = function(a, b) {
+  return b.rep(a);
+};
+com.cognitect.transit.handlers.SymbolHandler = function() {
+};
+com.cognitect.transit.handlers.SymbolHandler.prototype.tag = function(a) {
+  return "$";
+};
+com.cognitect.transit.handlers.SymbolHandler.prototype.rep = function(a) {
+  return a.name;
+};
+com.cognitect.transit.handlers.SymbolHandler.prototype.stringRep = function(a, b) {
+  return b.rep(a);
+};
+com.cognitect.transit.handlers.TaggedHandler = function() {
+};
+com.cognitect.transit.handlers.TaggedHandler.prototype.tag = function(a) {
+  return a.tag;
+};
+com.cognitect.transit.handlers.TaggedHandler.prototype.rep = function(a) {
+  return a.rep;
+};
+com.cognitect.transit.handlers.TaggedHandler.prototype.stringRep = function(a, b) {
+  return null;
+};
+com.cognitect.transit.handlers.TransitSetHandler = function() {
+};
+com.cognitect.transit.handlers.TransitSetHandler.prototype.tag = function(a) {
+  return "set";
+};
+com.cognitect.transit.handlers.TransitSetHandler.prototype.rep = function(a) {
+  var b = [];
+  a.forEach(function(a, d) {
+    b.push(a);
+  });
+  return com.cognitect.transit.types.taggedValue("array", b);
+};
+com.cognitect.transit.handlers.TransitSetHandler.prototype.stringRep = function(a, b) {
+  return null;
+};
+com.cognitect.transit.handlers.TransitArrayMapHandler = function() {
+};
+com.cognitect.transit.handlers.TransitArrayMapHandler.prototype.tag = function(a) {
+  return "map";
+};
+com.cognitect.transit.handlers.TransitArrayMapHandler.prototype.rep = function(a) {
+  return a;
+};
+com.cognitect.transit.handlers.TransitArrayMapHandler.prototype.stringRep = function(a, b) {
+  return null;
+};
+com.cognitect.transit.handlers.TransitMapHandler = function() {
+};
+com.cognitect.transit.handlers.TransitMapHandler.prototype.tag = function(a) {
+  return "map";
+};
+com.cognitect.transit.handlers.TransitMapHandler.prototype.rep = function(a) {
+  return a;
+};
+com.cognitect.transit.handlers.TransitMapHandler.prototype.stringRep = function(a, b) {
+  return null;
+};
+com.cognitect.transit.handlers.defaultHandlers = function(a) {
+  a.set(null, new com.cognitect.transit.handlers.NilHandler);
+  a.set(String, new com.cognitect.transit.handlers.StringHandler);
+  a.set(Number, new com.cognitect.transit.handlers.NumberHandler);
+  a.set(goog.math.Long, new com.cognitect.transit.handlers.IntegerHandler);
+  a.set(Boolean, new com.cognitect.transit.handlers.BooleanHandler);
+  a.set(Array, new com.cognitect.transit.handlers.ArrayHandler);
+  a.set(Object, new com.cognitect.transit.handlers.MapHandler);
+  a.set(Date, new com.cognitect.transit.handlers.DateHandler);
+  a.set(com.cognitect.transit.types.UUID, new com.cognitect.transit.handlers.UUIDHandler);
+  a.set(com.cognitect.transit.types.Keyword, new com.cognitect.transit.handlers.KeywordHandler);
+  a.set(com.cognitect.transit.types.Symbol, new com.cognitect.transit.handlers.SymbolHandler);
+  a.set(com.cognitect.transit.types.TaggedValue, new com.cognitect.transit.handlers.TaggedHandler);
+  a.set(com.cognitect.transit.types.TransitSet, new com.cognitect.transit.handlers.TransitSetHandler);
+  a.set(com.cognitect.transit.types.TransitArrayMap, new com.cognitect.transit.handlers.TransitArrayMapHandler);
+  a.set(com.cognitect.transit.types.TransitMap, new com.cognitect.transit.handlers.TransitMapHandler);
+  return a;
+};
+com.cognitect.transit.handlers.Handlers = function() {
+  this.handlers = {};
+  com.cognitect.transit.handlers.defaultHandlers(this);
+};
+com.cognitect.transit.handlers.Handlers.prototype.get = function(a) {
+  return "string" === typeof a ? this.handlers[a] : this.handlers[com.cognitect.transit.handlers.typeTag(a)];
+};
+com.cognitect.transit.handlers.validTag = function(a) {
+  switch(a) {
+    case "null":
+    ;
+    case "string":
+    ;
+    case "boolean":
+    ;
+    case "number":
+    ;
+    case "array":
+    ;
+    case "map":
+      return!1;
+  }
+  return!0;
+};
+com.cognitect.transit.handlers.Handlers.prototype.set = function(a, b) {
+  "string" === typeof a && com.cognitect.transit.handlers.validTag(a) ? this.handlers[a] = b : this.handlers[com.cognitect.transit.handlers.typeTag(a)] = b;
+};
+com.cognitect.transit.impl.writer = {};
+com.cognitect.transit.impl.writer.escape = function(a) {
+  if (0 < a.length) {
+    var b = a.charAt(0);
+    return b === com.cognitect.transit.delimiters.ESC || b === com.cognitect.transit.delimiters.SUB || b === com.cognitect.transit.delimiters.RES ? com.cognitect.transit.delimiters.ESC + a : a;
+  }
+  return a;
+};
+com.cognitect.transit.impl.writer.JSONMarshaller = function(a) {
+  this.opts = a || {};
+  this.preferStrings = null != this.opts.preferStrings ? this.opts.preferStrings : !0;
+  this.objectBuilder = this.opts.objectBuilder || null;
+  this.handlers = new com.cognitect.transit.handlers.Handlers;
+  if (this.opts.handlers) {
+    var b = this;
+    this.opts.handlers.forEach(function(a, d) {
+      b.handlers.set(d, a);
+    });
+  }
+  this.unpack = this.opts.unpack || function(a) {
+    return com.cognitect.transit.types.isArrayMap(a) && null === a.backingMap ? a._entries : !1;
+  };
+  this.verbose = this.opts && this.opts.verbose || !1;
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.handler = function(a) {
+  var b = this.handlers.get(com.cognitect.transit.handlers.constructor(a));
+  return null != b ? b : (a = a && a.transitTag) ? this.handlers.get(a) : null;
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.registerHandler = function(a, b) {
+  this.handlers.set(a, b);
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.emitNil = function(a, b) {
+  return a ? this.emitString(com.cognitect.transit.delimiters.ESC, "_", "", a, b) : null;
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.emitString = function(a, b, c, d, e) {
+  a = a + b + c;
+  return e ? e.write(a, d) : a;
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.emitBoolean = function(a, b, c) {
+  return b ? this.emitString(com.cognitect.transit.delimiters.ESC, "?", a.toString()[0], b, c) : a;
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.emitInteger = function(a, b, c) {
+  return b || "string" === typeof a || a instanceof goog.math.Long ? this.emitString(com.cognitect.transit.delimiters.ESC, "i", a.toString(), b, c) : a;
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.emitDouble = function(a, b, c) {
+  return b ? this.emitString(a.ESC, "d", a, b, c) : a;
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.emitBinary = function(a, b, c) {
+  return this.emitString(com.cognitect.transit.delimiters.ESC, "b", a, b, c);
+};
+com.cognitect.transit.impl.writer.JSONMarshaller.prototype.emitQuoted = function(a, b, c) {
+  if (a.verbose) {
+    a = {};
+    var d = this.emitString(com.cognitect.transit.delimiters.ESC_TAG, "'", "", !0, c);
+    a[d] = com.cognitect.transit.impl.writer.marshal(this, b, !1, c);
+    return a;
+  }
+  return[this.emitString(com.cognitect.transit.delimiters.ESC_TAG, "'", "", !0, c), com.cognitect.transit.impl.writer.marshal(this, b, !1, c)];
+};
+com.cognitect.transit.impl.writer.emitObjects = function(a, b, c) {
+  var d = [];
+  if (com.cognitect.transit.util.isArray(b)) {
+    for (var e = 0;e < b.length;e++) {
+      d.push(com.cognitect.transit.impl.writer.marshal(a, b[e], !1, c));
+    }
+  } else {
+    b.forEach(function(b, e) {
+      d.push(com.cognitect.transit.impl.writer.marshal(a, b, !1, c));
+    });
+  }
+  return d;
+};
+com.cognitect.transit.impl.writer.emitArray = function(a, b, c, d) {
+  return com.cognitect.transit.impl.writer.emitObjects(a, b, d);
+};
+com.cognitect.transit.impl.writer.isStringableKey = function(a, b) {
+  if ("string" !== typeof b) {
+    var c = a.handler(b);
+    return c && 1 === c.tag(b).length;
+  }
+  return!0;
+};
+com.cognitect.transit.impl.writer.stringableKeys = function(a, b) {
+  var c = a.unpack(b), d = !0;
+  if (c) {
+    for (var e = 0;e < c.length && (d = com.cognitect.transit.impl.writer.isStringableKey(a, c[e]), d);e += 2) {
+    }
+    return d;
+  }
+  if (b.keys && (c = b.keys(), c.next)) {
+    for (step = c.next();!step.done;) {
+      d = com.cognitect.transit.impl.writer.isStringableKey(a, step.value);
+      if (!d) {
+        break;
+      }
+      step = c.next();
+    }
+    return d;
+  }
+  if (b.forEach) {
+    return b.forEach(function(b, c) {
+      d = d && com.cognitect.transit.impl.writer.isStringableKey(a, c);
+    }), d;
+  }
+  throw Error("Cannot walk keys of object type " + com.cognitect.transit.handlers.constructor(b).name);
+};
+com.cognitect.transit.impl.writer.emitMap = function(a, b, c, d) {
+  if (b.constructor === Object || null != b.forEach) {
+    if (a.verbose) {
+      if (null != b.forEach) {
+        if (com.cognitect.transit.impl.writer.stringableKeys(a, b)) {
+          var e = {};
+          b.forEach(function(b, c) {
+            e[com.cognitect.transit.impl.writer.marshal(a, c, !0, !1)] = com.cognitect.transit.impl.writer.marshal(a, b, !1, d);
+          });
+        } else {
+          var f = a.unpack(b), g = [], h = a.emitString(com.cognitect.transit.delimiters.ESC_TAG, "cmap", "", !0, d);
+          if (f) {
+            for (c = 0;c < f.length;c += 2) {
+              g.push(com.cognitect.transit.impl.writer.marshal(a, f[c], !0, !1)), g.push(com.cognitect.transit.impl.writer.marshal(a, f[c + 1], !1, d));
+            }
+          } else {
+            b.forEach(function(b, c) {
+              g.push(com.cognitect.transit.impl.writer.marshal(a, c, !0, !1));
+              g.push(com.cognitect.transit.impl.writer.marshal(a, b, !1, d));
+            });
+          }
+          e = {};
+          e[h] = g;
+        }
+      } else {
+        for (e = {}, f = com.cognitect.transit.util.objectKeys(b), c = 0;c < f.length;c++) {
+          e[com.cognitect.transit.impl.writer.marshal(a, f[c], !0, !1)] = com.cognitect.transit.impl.writer.marshal(a, b[f[c]], !1, d);
+        }
+      }
+      return e;
+    }
+    if (null != b.forEach) {
+      if (com.cognitect.transit.impl.writer.stringableKeys(a, b)) {
+        f = a.unpack(b);
+        e = ["^ "];
+        if (f) {
+          for (c = 0;c < f.length;c += 2) {
+            e.push(com.cognitect.transit.impl.writer.marshal(a, f[c], !0, d)), e.push(com.cognitect.transit.impl.writer.marshal(a, f[c + 1], !1, d));
+          }
+        } else {
+          b.forEach(function(b, c) {
+            e.push(com.cognitect.transit.impl.writer.marshal(a, c, !0, d));
+            e.push(com.cognitect.transit.impl.writer.marshal(a, b, !1, d));
+          });
+        }
+        return e;
+      }
+      f = a.unpack(b);
+      g = [];
+      h = a.emitString(com.cognitect.transit.delimiters.ESC_TAG, "cmap", "", !0, d);
+      if (f) {
+        for (c = 0;c < f.length;c += 2) {
+          g.push(com.cognitect.transit.impl.writer.marshal(a, f[c], !0, d)), g.push(com.cognitect.transit.impl.writer.marshal(a, f[c + 1], !1, d));
+        }
+      } else {
+        b.forEach(function(b, c) {
+          g.push(com.cognitect.transit.impl.writer.marshal(a, c, !0, d));
+          g.push(com.cognitect.transit.impl.writer.marshal(a, b, !1, d));
+        });
+      }
+      return[h, g];
+    }
+    e = ["^ "];
+    f = com.cognitect.transit.util.objectKeys(b);
+    for (c = 0;c < f.length;c++) {
+      e.push(com.cognitect.transit.impl.writer.marshal(a, f[c], !0, d)), e.push(com.cognitect.transit.impl.writer.marshal(a, b[f[c]], !1, d));
+    }
+    return e;
+  }
+  if (null != a.objectBuilder) {
+    return a.objectBuilder(b, function(b) {
+      return com.cognitect.transit.impl.writer.marshal(a, b, !0, d);
+    }, function(b) {
+      return com.cognitect.transit.impl.writer.marshal(a, b, !1, d);
+    });
+  }
+  c = com.cognitect.transit.handlers.constructor(b).name;
+  f = Error("Cannot write " + c);
+  f.data = {obj:b, type:c};
+  throw f;
+};
+com.cognitect.transit.impl.writer.emitTaggedMap = function(a, b, c, d, e) {
+  return a.verbose ? (d = {}, d[a.emitString(com.cognitect.transit.delimiters.ESC_TAG, b, "", !0, e)] = com.cognitect.transit.impl.writer.marshal(a, c, !1, e), d) : [a.emitString(com.cognitect.transit.delimiters.ESC_TAG, b, "", !0, e), com.cognitect.transit.impl.writer.marshal(a, c, !1, e)];
+};
+com.cognitect.transit.impl.writer.emitEncoded = function(a, b, c, d, e, f, g) {
+  if (1 === c.length) {
+    if ("string" === typeof d) {
+      return a.emitString(com.cognitect.transit.delimiters.ESC, c, d, f, g);
+    }
+    if (f || a.preferStrings) {
+      (d = a.verbose && b.getVerboseHandler()) ? (c = d.tag(e), d = d.stringRep(e, d)) : d = b.stringRep(e, b);
+      if (null !== d) {
+        return a.emitString(com.cognitect.transit.delimiters.ESC, c, d, f, g);
+      }
+      a = Error('Tag "' + c + '" cannot be encoded as string');
+      a.data = {tag:c, rep:d, obj:e};
+      throw a;
+    }
+  }
+  return com.cognitect.transit.impl.writer.emitTaggedMap(a, c, d, f, g);
+};
+com.cognitect.transit.impl.writer.marshal = function(a, b, c, d) {
+  var e = a.handler(b), f = e ? e.tag(b) : null, g = e ? e.rep(b) : null;
+  if (null != e && null != f) {
+    switch(f) {
+      case "_":
+        return a.emitNil(c, d);
+      case "s":
+        return a.emitString("", "", com.cognitect.transit.impl.writer.escape(g), c, d);
+      case "?":
+        return a.emitBoolean(g, c, d);
+      case "i":
+        return a.emitInteger(g, c, d);
+      case "d":
+        return a.emitDouble(g, c, d);
+      case "b":
+        return a.emitBinary(g, c, d);
+      case "'":
+        return a.emitQuoted(a, g, d);
+      case "array":
+        return com.cognitect.transit.impl.writer.emitArray(a, g, c, d);
+      case "map":
+        return com.cognitect.transit.impl.writer.emitMap(a, g, c, d);
+      default:
+        return com.cognitect.transit.impl.writer.emitEncoded(a, e, f, g, b, c, d);
+    }
+  } else {
+    throw a = com.cognitect.transit.handlers.constructor(b).name, c = Error("Cannot write " + a), c.data = {obj:b, type:a}, c;
+  }
+};
+com.cognitect.transit.impl.writer.maybeQuoted = function(a, b) {
+  var c = a.handler(b);
+  if (null != c) {
+    return 1 === c.tag(b).length ? com.cognitect.transit.types.quoted(b) : b;
+  }
+  var c = com.cognitect.transit.handlers.constructor(b).name, d = Error("Cannot write " + c);
+  d.data = {obj:b, type:c};
+  throw d;
+};
+com.cognitect.transit.impl.writer.marshalTop = function(a, b, c, d) {
+  return JSON.stringify(com.cognitect.transit.impl.writer.marshal(a, com.cognitect.transit.impl.writer.maybeQuoted(a, b), c, d));
+};
+com.cognitect.transit.impl.writer.Writer = function(a, b) {
+  this._marshaller = a;
+  this.options = b || {};
+  this.cache = !1 === this.options.cache ? null : this.options.cache ? this.options.cache : new com.cognitect.transit.caching.WriteCache;
+};
+com.cognitect.transit.impl.writer.Writer.prototype.marshaller = function() {
+  return this._marshaller;
+};
+com.cognitect.transit.impl.writer.Writer.prototype.marshaller = com.cognitect.transit.impl.writer.Writer.prototype.marshaller;
+com.cognitect.transit.impl.writer.Writer.prototype.write = function(a, b) {
+  var c = null, c = b || {}, d = c.asMapKey || !1, e = this._marshaller.verbose ? !1 : this.cache, c = !1 === c.marshalTop ? com.cognitect.transit.impl.writer.marshal(this._marshaller, a, d, e) : com.cognitect.transit.impl.writer.marshalTop(this._marshaller, a, d, e);
+  null != this.cache && this.cache.clear();
+  return c;
+};
+com.cognitect.transit.impl.writer.Writer.prototype.write = com.cognitect.transit.impl.writer.Writer.prototype.write;
+com.cognitect.transit.impl.writer.Writer.prototype.register = function(a, b) {
+  this._marshaller.registerHandler(a, b);
+};
+com.cognitect.transit.impl.writer.Writer.prototype.register = com.cognitect.transit.impl.writer.Writer.prototype.register;
+var TRANSIT_NODE_TARGET = !1, TRANSIT_BROWSER_TARGET = !0, TRANSIT_BROWSER_AMD_TARGET = !1;
+com.cognitect.transit.reader = function(a, b) {
+  if ("json" === a || "json-verbose" === a || null == a) {
+    var c = new com.cognitect.transit.impl.reader.JSONUnmarshaller(b);
+    return new com.cognitect.transit.impl.reader.Reader(c, b);
+  }
+  throw Error("Cannot create reader of type " + a);
+};
+com.cognitect.transit.writer = function(a, b) {
+  if ("json" === a || "json-verbose" === a || null == a) {
+    "json-verbose" === a && (null == b && (b = {}), b.verbose = !0);
+    var c = new com.cognitect.transit.impl.writer.JSONMarshaller(b);
+    return new com.cognitect.transit.impl.writer.Writer(c, b);
+  }
+  c = Error('Type must be "json"');
+  c.data = {type:a};
+  throw c;
+};
+com.cognitect.transit.makeWriteHandler = function(a) {
+  var b = function() {
+  };
+  b.prototype.tag = a.tag;
+  b.prototype.rep = a.rep;
+  b.prototype.stringRep = a.stringRep;
+  b.prototype.getVerboseHandler = a.getVerboseHandler;
+  return new b;
+};
+com.cognitect.transit.makeBuilder = function(a) {
+  var b = function() {
+  };
+  b.prototype.init = a.init;
+  b.prototype.add = a.add;
+  b.prototype.finalize = a.finalize;
+  b.prototype.fromArray = a.fromArray;
+  return new b;
+};
+com.cognitect.transit.date = com.cognitect.transit.types.date;
+com.cognitect.transit.integer = com.cognitect.transit.types.intValue;
+com.cognitect.transit.isInteger = com.cognitect.transit.types.isInteger;
+com.cognitect.transit.uuid = com.cognitect.transit.types.uuid;
+com.cognitect.transit.isUUID = com.cognitect.transit.types.isUUID;
+com.cognitect.transit.bigInt = com.cognitect.transit.types.bigInteger;
+com.cognitect.transit.isBigInt = com.cognitect.transit.types.isBigInteger;
+com.cognitect.transit.bigDec = com.cognitect.transit.types.bigDecimalValue;
+com.cognitect.transit.isBigDec = com.cognitect.transit.types.isBigDecimal;
+com.cognitect.transit.keyword = com.cognitect.transit.types.keyword;
+com.cognitect.transit.isKeyword = com.cognitect.transit.types.isKeyword;
+com.cognitect.transit.symbol = com.cognitect.transit.types.symbol;
+com.cognitect.transit.isSymbol = com.cognitect.transit.types.isSymbol;
+com.cognitect.transit.binary = com.cognitect.transit.types.binary;
+com.cognitect.transit.isBinary = com.cognitect.transit.types.isBinary;
+com.cognitect.transit.uri = com.cognitect.transit.types.uri;
+com.cognitect.transit.isURI = com.cognitect.transit.types.isURI;
+com.cognitect.transit.map = com.cognitect.transit.types.map;
+com.cognitect.transit.isMap = com.cognitect.transit.types.isMap;
+com.cognitect.transit.set = com.cognitect.transit.types.set;
+com.cognitect.transit.isSet = com.cognitect.transit.types.isSet;
+com.cognitect.transit.list = com.cognitect.transit.types.list;
+com.cognitect.transit.isList = com.cognitect.transit.types.isList;
+com.cognitect.transit.quoted = com.cognitect.transit.types.quoted;
+com.cognitect.transit.isQuoted = com.cognitect.transit.types.isQuoted;
+com.cognitect.transit.tagged = com.cognitect.transit.types.taggedValue;
+com.cognitect.transit.isTaggedValue = com.cognitect.transit.types.isTaggedValue;
+com.cognitect.transit.link = com.cognitect.transit.types.link;
+com.cognitect.transit.isLink = com.cognitect.transit.types.isLink;
+com.cognitect.transit.hash = com.cognitect.transit.eq.hashCode;
+com.cognitect.transit.hashKey = com.cognitect.transit.eq.transitHashCodeProperty;
+com.cognitect.transit.hashMapLike = com.cognitect.transit.eq.hashMapLike;
+com.cognitect.transit.hashMapLike = com.cognitect.transit.eq.hashArrayLike;
+com.cognitect.transit.equals = com.cognitect.transit.eq.equals;
+com.cognitect.transit.extendToEQ = com.cognitect.transit.eq.extendToEQ;
+com.cognitect.transit.mapToObject = function(a) {
+  var b = {};
+  a.forEach(function(a, d) {
+    if ("string" !== typeof d) {
+      throw Error("Cannot convert map with non-string keys");
+    }
+    b[d] = a;
+  });
+  return b;
+};
+com.cognitect.transit.decoder = com.cognitect.transit.impl.decoder.decoder;
+com.cognitect.transit.UUIDfromString = com.cognitect.transit.types.UUIDfromString;
+com.cognitect.transit.randomUUID = com.cognitect.transit.types.randomUUID;
+com.cognitect.transit.stringableKeys = com.cognitect.transit.impl.writer.stringableKeys;
+TRANSIT_BROWSER_AMD_TARGET && define("transit", [], function() {
+  return com.cognitect.transit;
+});
+TRANSIT_BROWSER_TARGET && (goog.exportSymbol("transit.reader", com.cognitect.transit.reader), goog.exportSymbol("transit.writer", com.cognitect.transit.writer), goog.exportSymbol("transit.makeBuilder", com.cognitect.transit.makeBuilder), goog.exportSymbol("transit.makeWriteHandler", com.cognitect.transit.makeWriteHandler), goog.exportSymbol("transit.date", com.cognitect.transit.types.date), goog.exportSymbol("transit.integer", com.cognitect.transit.types.intValue), goog.exportSymbol("transit.isInteger", 
+com.cognitect.transit.types.isInteger), goog.exportSymbol("transit.uuid", com.cognitect.transit.types.uuid), goog.exportSymbol("transit.isUUID", com.cognitect.transit.types.isUUID), goog.exportSymbol("transit.bigInt", com.cognitect.transit.types.bigInteger), goog.exportSymbol("transit.isBigInt", com.cognitect.transit.types.isBigInteger), goog.exportSymbol("transit.bigDec", com.cognitect.transit.types.bigDecimalValue), goog.exportSymbol("transit.isBigDec", com.cognitect.transit.types.isBigDecimal), 
+goog.exportSymbol("transit.keyword", com.cognitect.transit.types.keyword), goog.exportSymbol("transit.isKeyword", com.cognitect.transit.types.isKeyword), goog.exportSymbol("transit.symbol", com.cognitect.transit.types.symbol), goog.exportSymbol("transit.isSymbol", com.cognitect.transit.types.isSymbol), goog.exportSymbol("transit.binary", com.cognitect.transit.types.binary), goog.exportSymbol("transit.isBinary", com.cognitect.transit.types.isBinary), goog.exportSymbol("transit.uri", com.cognitect.transit.types.uri), 
+goog.exportSymbol("transit.isURI", com.cognitect.transit.types.isURI), goog.exportSymbol("transit.map", com.cognitect.transit.types.map), goog.exportSymbol("transit.isMap", com.cognitect.transit.types.isMap), goog.exportSymbol("transit.set", com.cognitect.transit.types.set), goog.exportSymbol("transit.isSet", com.cognitect.transit.types.isSet), goog.exportSymbol("transit.list", com.cognitect.transit.types.list), goog.exportSymbol("transit.isList", com.cognitect.transit.types.isList), goog.exportSymbol("transit.quoted", 
+com.cognitect.transit.types.quoted), goog.exportSymbol("transit.isQuoted", com.cognitect.transit.types.isQuoted), goog.exportSymbol("transit.tagged", com.cognitect.transit.types.taggedValue), goog.exportSymbol("transit.isTaggedValue", com.cognitect.transit.types.isTaggedValue), goog.exportSymbol("transit.link", com.cognitect.transit.types.link), goog.exportSymbol("transit.isLink", com.cognitect.transit.types.isLink), goog.exportSymbol("transit.hash", com.cognitect.transit.eq.hashCode), goog.exportSymbol("transit.hashKey", 
+com.cognitect.transit.eq.transitHashCodeProperty), goog.exportSymbol("transit.hashMapLike", com.cognitect.transit.eq.hashMapLike), goog.exportSymbol("transit.hashArrayLike", com.cognitect.transit.eq.hashArrayLike), goog.exportSymbol("transit.equals", com.cognitect.transit.eq.equals), goog.exportSymbol("transit.extendToEQ", com.cognitect.transit.eq.extendToEQ), goog.exportSymbol("transit.mapToObject", com.cognitect.transit.mapToObject), goog.exportSymbol("transit.decoder", com.cognitect.transit.impl.decoder.decoder), 
+goog.exportSymbol("transit.UUIDfromString", com.cognitect.transit.types.UUIDfromString), goog.exportSymbol("transit.randomUUID", com.cognitect.transit.types.randomUUID), goog.exportSymbol("transit.stringableKeys", com.cognitect.transit.impl.writer.stringableKeys));
+TRANSIT_NODE_TARGET && (module.exports = {reader:com.cognitect.transit.reader, writer:com.cognitect.transit.writer, makeBuilder:com.cognitect.transit.makeBuilder, makeWriteHandler:com.cognitect.transit.makeWriteHandler, date:com.cognitect.transit.types.date, integer:com.cognitect.transit.types.intValue, isInteger:com.cognitect.transit.types.isInteger, uuid:com.cognitect.transit.types.uuid, isUUID:com.cognitect.transit.types.isUUID, bigInt:com.cognitect.transit.types.bigInteger, isBigInt:com.cognitect.transit.types.isBigInteger, 
+bigDec:com.cognitect.transit.types.bigDecimalValue, isBigDec:com.cognitect.transit.types.isBigDecimal, keyword:com.cognitect.transit.types.keyword, isKeyword:com.cognitect.transit.types.isKeyword, symbol:com.cognitect.transit.types.symbol, isSymbol:com.cognitect.transit.types.isSymbol, binary:com.cognitect.transit.types.binary, isBinary:com.cognitect.transit.types.isBinary, uri:com.cognitect.transit.types.uri, isURI:com.cognitect.transit.types.isURI, map:com.cognitect.transit.types.map, isMap:com.cognitect.transit.types.isMap, 
+set:com.cognitect.transit.types.set, isSet:com.cognitect.transit.types.isSet, list:com.cognitect.transit.types.list, isList:com.cognitect.transit.types.isList, quoted:com.cognitect.transit.types.quoted, isQuoted:com.cognitect.transit.types.isQuoted, tagged:com.cognitect.transit.types.taggedValue, isTaggedValue:com.cognitect.transit.types.isTaggedValue, link:com.cognitect.transit.types.link, isLink:com.cognitect.transit.types.isLink, hash:com.cognitect.transit.eq.hashCode, hashKey:com.cognitect.transit.eq.transitHashCodeProperty, 
+hashArrayLike:com.cognitect.transit.eq.hashArrayLike, hashMapLike:com.cognitect.transit.eq.hashMapLike, equals:com.cognitect.transit.eq.equals, extendToEQ:com.cognitect.transit.eq.extendToEQ, mapToObject:com.cognitect.transit.mapToObject, decoder:com.cognitect.transit.impl.decoder.decoder, UUIDfromString:com.cognitect.transit.types.UUIDfromString, randomUUID:com.cognitect.transit.types.randomUUID, stringableKeys:com.cognitect.transit.impl.writer.stringableKeys});
+})();
